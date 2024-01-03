@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import * as React from 'react'
 
-function App() {
+// 1. import `ChakraProvider` component
+import { ChakraProvider } from '@chakra-ui/react'
+import Navbar from './components/Navbar'
+import Profile from './components/Profile'
+import About from './components/About'
+
+import {
+  Text,
+} from "@chakra-ui/react";
+
+export default function App() {
+  // 2. Wrap ChakraProvider at the root of your app
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <ChakraProvider>
+      <>
+        <Navbar />
+        <Profile />
+        {/* <About /> */}
+        <Text textAlign="center" fontSize="xx-large" paddingBottom="50px">
+          Currently Work In Progress
+        </Text>
+      </>
+    </ChakraProvider>
+  )
 }
-
-export default App;
