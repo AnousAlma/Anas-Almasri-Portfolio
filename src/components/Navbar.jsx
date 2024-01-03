@@ -1,86 +1,120 @@
 'use client'
-
 import {
-  Box,
   Flex,
-  Text,
   Button,
-  useDisclosure,
+  Drawer,
+  DrawerBody,
+  DrawerOverlay,
+  DrawerContent,
   useColorModeValue,
   Stack,
   useColorMode,
-} from '@chakra-ui/react'
-import { MoonIcon, SunIcon } from '@chakra-ui/icons'
-import React from 'react'
+  IconButton,
+  useMediaQuery,
+  useDisclosure,
+  HStack,
+  Text,
+} from "@chakra-ui/react";
+import { MoonIcon, SunIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { Link } from 'react-scroll';
+import { React } from "react";
 
+export default function Nav({ color }) {
+  const { colorMode, toggleColorMode } = useColorMode();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-const NavLink = (props) => {
-  const { children } = props
-
+  const [isLargerThanMD] = useMediaQuery("(min-width: 48em)");
+  
   return (
-    <Box
-      as="a"
-      px={2}
-      py={1}
-      rounded={'md'}
-      _hover={{
-        textDecoration: 'none',
-        bg: useColorModeValue('gray.200', 'gray.700'),
-      }}
-      href={'#'}>
-      {children}
-    </Box>
-  )
-}
+    <>
+      <Flex
+        bg={useColorModeValue("gray.100", "gray.900")}
+        px={4}
+        h={16}
+        zIndex="sticky"
+        position="fixed"
+        as="header"
+        alignItems={"center"}
+        justifyContent={"space-between"}
+        w="100%"
+      >
+          <HStack>
+            <Text>Logo</Text>
+          </HStack>
 
-export default function Navbar() {
-  const { colorMode, toggleColorMode } = useColorMode()
+        <Flex alignItems={"center"}>
+          <Stack direction={"row"} spacing={7}>
+            {isLargerThanMD ? (
+              <>
+                <Button variant="ghost">
+                  <Link to="about"  spy={true}  smooth={true} offset={-20} duration={500}>
+                    <Text fontSize="medium" fontWeight="bold" >About</Text>
+                  </Link>
+                </Button>
+                <Button variant="ghost">
+                  <Link to="experiences"  spy={true}  smooth={true} offset={-20} duration={500}>
+                    <Text fontSize="medium" fontWeight="bold" >Experiences</Text>
+                  </Link>
+                </Button>
+                <Button variant="ghost">
+                  <Link to="projects"  spy={true}  smooth={true} offset={-20} duration={500}>
+                    <Text fontSize="medium" fontWeight="bold" >Projects</Text>
+                  </Link>
+                </Button>
+                <Button variant="ghost">
+                  <Link to="contact"  spy={true}  smooth={true} offset={-20} duration={500}>
+                    <Text fontSize="medium" fontWeight="bold" >Contact</Text>
+                  </Link>
+                </Button>
+              </>
+            ) : (
+              <></>
+            )}
+            <Button onClick={toggleColorMode}>
+              {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+            </Button>
 
-
-
-  return (
-    <div id="navbar">
-      <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
-        <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-          <Box>Logo</Box>
-          <Flex alignItems={'center'}>
-            <Box mr={5}>
-              <Button variant="ghost">
-                <Link to="about"  spy={true}  smooth={true} offset={-20} duration={500}>
-                  <Text fontSize="medium" fontWeight="bold" >About</Text>
-                </Link>
-              </Button>
-            </Box>
-            <Box mr={5}>
-              <Button variant="ghost">
-                <Link to="experiences"  spy={true}  smooth={true} offset={-20} duration={500}>
-                  <Text fontSize="medium" fontWeight="bold" >Experiences</Text>
-                </Link>
-              </Button>
-            </Box>
-            <Box mr={5}>
-              <Button variant="ghost">
-                <Link to="projects"  spy={true}  smooth={true} offset={-20} duration={500}>
-                  <Text fontSize="medium" fontWeight="bold" >Projects</Text>
-                </Link>
-              </Button>
-            </Box>
-            <Box mr={5}>
-              <Button variant="ghost">
-                <Link to="contact"  spy={true}  smooth={true} offset={-20} duration={500}>
-                  <Text fontSize="medium" fontWeight="bold" >Contact</Text>
-                </Link>
-              </Button>
-            </Box>
-            <Stack direction={'row'} spacing={7}>
-              <Button onClick={toggleColorMode}>
-                {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
-              </Button>
-            </Stack>
-          </Flex>
+            {isLargerThanMD ? (
+              <></>
+            ) : (
+              <>
+                <Button
+                  as={IconButton}
+                  icon={<HamburgerIcon />}
+                  onClick={onOpen}
+                ></Button>
+                <Drawer placement="top" onClose={onClose} isOpen={isOpen}>
+                  <DrawerOverlay />
+                  <DrawerContent>
+                    <DrawerBody>
+                      <Button variant="ghost">
+                        <Link to="about"  spy={true}  smooth={true} offset={-20} duration={500}>
+                          <Text fontSize="medium" fontWeight="bold" >About</Text>
+                        </Link>
+                      </Button>
+                      <Button variant="ghost">
+                        <Link to="experiences"  spy={true}  smooth={true} offset={-20} duration={500}>
+                          <Text fontSize="medium" fontWeight="bold" >Experiences</Text>
+                        </Link>
+                      </Button>
+                      <Button variant="ghost">
+                        <Link to="projects"  spy={true}  smooth={true} offset={-20} duration={500}>
+                          <Text fontSize="medium" fontWeight="bold" >Projects</Text>
+                        </Link>
+                      </Button>
+                      <Button variant="ghost">
+                        <Link to="contact"  spy={true}  smooth={true} offset={-20} duration={500}>
+                          <Text fontSize="medium" fontWeight="bold" >Contact</Text>
+                        </Link>
+                      </Button>
+                    </DrawerBody>
+                  </DrawerContent>
+                </Drawer>
+              </>
+            )}
+          </Stack>
         </Flex>
-      </Box>
-    </div>
-  )
+      </Flex>
+    </>
+  );
 }
