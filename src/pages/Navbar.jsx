@@ -39,7 +39,7 @@ export default function Nav({ color }) {
         w="100%"
       >
           <HStack>
-            <Text>Logo</Text>
+            <Text>AA</Text>
           </HStack>
 
         <Flex alignItems={"center"}>
