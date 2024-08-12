@@ -6,11 +6,10 @@ import Navbar from './pages/Navbar'
 import Profile from './pages/Profile'
 import About from './pages/About'
 
-import {
-  Text,
-} from "@chakra-ui/react";
 import Experiences from './pages/Experiences'
 import Footer from './pages/Footer'
+import Projects from './pages/Projects'
+import Contact from './pages/Contact'
 
 export default function App() {
   // 2. Wrap ChakraProvider at the root of your app
@@ -21,6 +20,8 @@ export default function App() {
         <Profile />
         <About />
         <Experiences />
+        <Projects />
+        <Contact />
         <Footer />
         {/* <Text textAlign="center" fontSize="xx-large" paddingBottom="50px">
           Currently Work In Progress

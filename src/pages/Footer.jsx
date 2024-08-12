@@ -6,7 +6,7 @@ import {
 
 const Footer = () => {
   return (
-    <Box w="100%" height="20px" bgColor={useColorModeValue("gray.100", "gray.900")} mt="40px">
+    <Box w="100%" height="20px" bgColor={useColorModeValue("gray.100", "gray.900")} mt="130px">
     </Box>
   )
 }

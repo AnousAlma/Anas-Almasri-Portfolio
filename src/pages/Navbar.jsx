@@ -46,26 +46,28 @@ export default function Nav({ color }) {
           <Stack direction={"row"} spacing={7}>
             {isLargerThanMD ? (
               <>
-                <Button variant="ghost">
-                  <Link to="about"  spy={true}  smooth={true} offset={-20} duration={500}>
+                
+                <Link to="about"  spy={true}  smooth={true} offset={-60} duration={500}>
+                  <Button variant="ghost">
                     <Text fontSize="medium" fontWeight="bold" >About</Text>
-                  </Link>
-                </Button>
-                <Button variant="ghost">
-                  <Link to="experiences"  spy={true}  smooth={true} offset={-20} duration={500}>
+                  </Button>
+                </Link>
+                
+                <Link to="experiences"  spy={true}  smooth={true} offset={-60} duration={500}>
+                  <Button variant="ghost">
                     <Text fontSize="medium" fontWeight="bold" >Experiences</Text>
-                  </Link>
-                </Button>
-                <Button variant="ghost">
-                  <Link to="projects"  spy={true}  smooth={true} offset={-20} duration={500}>
+                  </Button>
+                </Link>
+                <Link to="projects"  spy={true}  smooth={true} offset={-60} duration={500}>
+                  <Button variant="ghost">
                     <Text fontSize="medium" fontWeight="bold" >Projects</Text>
-                  </Link>
-                </Button>
-                <Button variant="ghost">
-                  <Link to="contact"  spy={true}  smooth={true} offset={-20} duration={500}>
+                  </Button>
+                </Link>
+                <Link to="contact"  spy={true}  smooth={true} offset={-60} duration={500}>
+                  <Button variant="ghost">
                     <Text fontSize="medium" fontWeight="bold" >Contact</Text>
-                  </Link>
-                </Button>
+                  </Button>
+                </Link>
               </>
             ) : (
               <></>

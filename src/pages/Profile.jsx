@@ -5,16 +5,13 @@ import {
   Text,
   Button,
   Stack,
-  Icon,
-  useColorModeValue,
-  createIcon,
 } from "@chakra-ui/react";
 
 export default function Profile({ color }) {
-  const scrollToContact = () => {
-    const contactSection = document.querySelector("#contact");
-    contactSection.scrollIntoView({ behavior: "smooth" });
-  };
+  // const scrollToContact = () => {
+  //   const contactSection = document.querySelector("#contact");
+  //   contactSection.scrollIntoView({ behavior: "smooth" });
+  // };
   const linkedin = () => {
     window.open(
                 `https://www.linkedin.com/in/anas-almasri-45491b298/`,
@@ -36,8 +33,8 @@ export default function Profile({ color }) {
           as={Box}
           textAlign={"center"}
           spacing={{ base: 8, md: 14 }}
-          pb={{ base: 80, md: 64 }}
-          pt={{ base: 80, md: 64 }}
+          pb={{ base: '33vh', md: '35vh' }}
+          pt={{ base: '33vh', md: '23vh' }}
         >
           <Heading
             fontWeight={600}
