@@ -21,8 +21,8 @@ const About = () => {
       </Flex>
       <Flex justifyContent="space-around" data-aos="fade-up">
         <Text fontSize={{base:"xl", lg:"3xl"}} textAlign="center" w={{base:"90%", md:"55%"}}>
-          I am currently attending the University of Toronto where I am studying Computer Science. 
-          <br/><br/>I always strive to learn new technologies, and skills and to keep up with the ever-changing world. I am passionate about software development, and I am always looking for new opportunities to grow and learn. 
+          I am currently attending the University of Toronto where I am majoring in Computer Science. 
+          <br/><br/>I strive to learn new technologies and skills and to keep up with the ever-changing world. I am passionate about software development and I am always looking for new opportunities to grow and learn. 
           <br/><br/> My current skills include Python, JavaScript, and React.
         </Text>
       </Flex>
