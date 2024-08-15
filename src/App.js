@@ -2,20 +2,22 @@ import * as React from 'react'
 
 // 1. import `ChakraProvider` component
 import { ChakraProvider, Box } from '@chakra-ui/react'
+import './App.css'
 import Navbar from './pages/Navbar'
 import Profile from './pages/Profile'
 import About from './pages/About'
-
 import Experiences from './pages/Experiences'
 import Footer from './pages/Footer'
 import Projects from './pages/Projects'
 import Contact from './pages/Contact'
+import ParticlesComponent from './pages/components/ParticlesComponent'
 
 export default function App() {
   // 2. Wrap ChakraProvider at the root of your app
   return (
     <ChakraProvider>
       <Box w={{base:"100vw", md:"100%"}}>
+        <ParticlesComponent id="particles" />
         <Navbar />
         <Profile />
         <About />
