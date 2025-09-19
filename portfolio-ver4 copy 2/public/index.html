@@ -27,6 +27,16 @@
     <title>Anas Almasri's Portfolio</title>
   </head>
   <body>
+    <script>
+      try {
+        var colorModeKey = 'chakra-ui-color-mode';
+        var colorModeItem = localStorage.getItem(colorModeKey);
+        var colorMode = colorModeItem === '"dark"' ? 'dark' : 'light';
+        if (colorMode === 'dark') {
+          document.body.classList.add('chakra-ui-dark');
+        }
+      } catch (e) {}
+    </script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--
