@@ -12,7 +12,11 @@ import {
   Flex,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
+
 import { FaCheckCircle } from 'react-icons/fa';
+
+const MotionFlex = motion(Flex);
 
 const TimelineItem = ({ logo, company, position, duration, location, achievements, index, isLast }) => {
   const timelineBg = useColorModeValue('gray.200', 'gray.600');
@@ -23,8 +27,12 @@ const TimelineItem = ({ logo, company, position, duration, location, achievement
   const achievementColor = useColorModeValue('gray.700', 'gray.300');
   const nodeBg = useColorModeValue('white', 'gray.800');
 
+  // no idle bobbing on timeline items; keep hover interactions
   return (
-    <Flex position="relative" pb={isLast ? 0 : 12}>
+    <MotionFlex
+      position="relative"
+      pb={isLast ? 0 : 12}
+    >
       {/* Timeline Line */}
       {!isLast && (
         <Box
@@ -37,7 +45,7 @@ const TimelineItem = ({ logo, company, position, duration, location, achievement
           zIndex={0}
         />
       )}
-      
+
       {/* Timeline Node */}
       <Box
         position="relative"
@@ -76,7 +84,7 @@ const TimelineItem = ({ logo, company, position, duration, location, achievement
             contrast="1.1"
           />
         </Box>
-    </Box>
+      </Box>
 
       {/* Content */}
       <Box
@@ -94,37 +102,26 @@ const TimelineItem = ({ logo, company, position, duration, location, achievement
       >
         <VStack align="stretch" spacing={4}>
           {/* Header */}
-          <Flex 
+          <Flex
             direction={{ base: 'column', sm: 'row' }}
             justify="space-between"
             align={{ base: 'flex-start', sm: 'center' }}
             gap={2}
           >
             <VStack align="flex-start" spacing={1}>
-              <Heading 
-                size="md" 
-                color={headingColor} 
-                fontWeight="600"
-              >
+              <Heading size="md" color={headingColor} fontWeight="600">
                 {position}
               </Heading>
               <Text color="brand.500" fontWeight="600" fontSize="lg">
                 {company}
               </Text>
             </VStack>
-            
+
             <VStack align={{ base: 'flex-start', sm: 'flex-end' }} spacing={1} flexShrink={0}>
-              <Text 
-                fontSize="sm" 
-                color={textColor} 
-                fontWeight="500"
-              >
+              <Text fontSize="sm" color={textColor} fontWeight="500">
                 {duration}
               </Text>
-              <Text 
-                fontSize="sm" 
-                color={subtextColor}
-              >
+              <Text fontSize="sm" color={subtextColor}>
                 {location}
               </Text>
             </VStack>
@@ -135,11 +132,7 @@ const TimelineItem = ({ logo, company, position, duration, location, achievement
             {achievements.map((achievement, i) => (
               <ListItem key={i} display="flex" alignItems="flex-start">
                 <ListIcon as={FaCheckCircle} color="brand.500" mt={0.5} flexShrink={0} />
-                <Text 
-                  color={achievementColor} 
-                  lineHeight="1.6" 
-                  fontSize="sm"
-                >
+                <Text color={achievementColor} lineHeight="1.6" fontSize="sm">
                   {achievement}
                 </Text>
               </ListItem>
@@ -147,9 +140,10 @@ const TimelineItem = ({ logo, company, position, duration, location, achievement
           </List>
         </VStack>
       </Box>
-    </Flex>
+    </MotionFlex>
   );
-};const Experiences = () => {
+};
+const Experiences = () => {
   const experiences = [
     {
       logo: "https://avatars.githubusercontent.com/u/91031689?s=280&v=4",
@@ -176,17 +170,17 @@ const TimelineItem = ({ logo, company, position, duration, location, achievement
         "Automated financial and logistics workflows by integrating QuickBooks API for billing, generating shipment documents, and sending order confirmations, reducing manual processing time by 70%."
       ]
     },
-    {
-      logo: "https://i.ibb.co/2nyFjpp/Al-Bassem-Org.jpg",
-      company: "Al Bassem Org",
-      position: "Software Developer Intern",
-      duration: "Nov 2023 - Apr 2024",
-      location: "Oakville, ON",
-      achievements: [
-        "Designed and implemented a comprehensive inventory management system using JavaScript, React Native, AWS, and MongoDB ensuring accurate alignment of items with their real-life locations.",
-        "Developed a dynamic React-based mobile application, enabling seamless user account creation, using Firebase, and efficient item sign-in/out through QR code scanning."
-      ]
-    },
+    // {
+    //   logo: "https://i.ibb.co/2nyFjpp/Al-Bassem-Org.jpg",
+    //   company: "Al Bassem Org",
+    //   position: "Software Developer Intern",
+    //   duration: "Nov 2023 - Apr 2024",
+    //   location: "Oakville, ON",
+    //   achievements: [
+    //     "Designed and implemented a comprehensive inventory management system using JavaScript, React Native, AWS, and MongoDB ensuring accurate alignment of items with their real-life locations.",
+    //     "Developed a dynamic React-based mobile application, enabling seamless user account creation, using Firebase, and efficient item sign-in/out through QR code scanning."
+    //   ]
+    // },
     {
       logo: "https://i.ibb.co/QQwYyKL/stack-hacks-logo.jpg",
       company: "Stack Hacks",

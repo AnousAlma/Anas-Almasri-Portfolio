@@ -25,7 +25,7 @@ const ContactMethod = ({ icon, title, value, href, delay }) => {
     <MotionBox
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay }}
+      transition={{ opacity: { duration: 0.36, delay }, y: { duration: 0.45, delay } }}
       viewport={{ once: true }}
       as="a"
       href={href}
@@ -34,7 +34,8 @@ const ContactMethod = ({ icon, title, value, href, delay }) => {
       textDecoration="none"
       _hover={{ textDecoration: 'none' }}
     >
-      <VStack
+      <MotionBox
+        as={VStack}
         p={6}
         bg={cardBg}
         borderRadius="xl"
@@ -48,6 +49,7 @@ const ContactMethod = ({ icon, title, value, href, delay }) => {
         }}
         transitionDuration="0.3s"
         cursor="pointer"
+        style={{ willChange: 'transform' }}
       >
         <Icon as={icon} w={8} h={8} color="brand.500" />
         <VStack spacing={2}>
@@ -58,7 +60,7 @@ const ContactMethod = ({ icon, title, value, href, delay }) => {
             {value}
           </Text>
         </VStack>
-      </VStack>
+  </MotionBox>
     </MotionBox>
   );
 };
@@ -71,16 +73,18 @@ const SocialLink = ({ icon, href, label, color, delay }) => {
     <MotionBox
       initial={{ opacity: 0, scale: 0 }}
       whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, delay }}
+      transition={{ opacity: { duration: 0.36, delay }, scale: { duration: 0.45, delay } }}
       viewport={{ once: true }}
       as="a"
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      whileHover={{ scale: 1.1, y: -2 }}
+      whileHover={{ scale: 1.08, y: -6 }}
       whileTap={{ scale: 0.95 }}
+      style={{ willChange: 'transform' }}
     >
-      <VStack
+      <MotionBox
+        as={VStack}
         p={4}
         bg={socialBg}
         borderRadius="full"
@@ -93,7 +97,7 @@ const SocialLink = ({ icon, href, label, color, delay }) => {
         cursor="pointer"
       >
         <Icon as={icon} w={6} h={6} color={color} />
-      </VStack>
+      </MotionBox>
     </MotionBox>
   );
 };
@@ -110,7 +114,7 @@ const Contact = () => {
       icon: FaMapMarkerAlt,
       title: 'Location',
       value: 'Toronto, ON, Canada',
-      href: '#',
+      href: 'https://media.licdn.com/dms/image/v2/D4D16AQFl9qxJXG143Q/profile-displaybackgroundimage-shrink_350_1400/B4DZlI2oZHJUAY-/0/1757863905431?e=1762992000&v=beta&t=Sniq3-KcAGwySsw-0U2H6QUiR8t8C_rt_rNQ91f3-58',
     },
     {
       icon: FaLinkedin,

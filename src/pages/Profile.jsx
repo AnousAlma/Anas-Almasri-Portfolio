@@ -13,7 +13,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Link } from 'react-scroll';
 
 const MotionBox = motion(Box);
@@ -51,6 +51,8 @@ export default function Profile() {
       color: 'red.500'
     }
   ];
+
+  const reduceMotion = useReducedMotion();
 
   return (
     <Box
@@ -232,11 +234,22 @@ export default function Profile() {
 
           {/* Profile Image */}
           <MotionBox
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.4 }}
+            initial={{ opacity: 0, y: 6 }}
+            animate={
+              reduceMotion
+                ? { opacity: 1, y: 0 }
+                : { opacity: 1, y: [0, -10, 0] }
+            }
+            transition={
+              reduceMotion
+                ? { opacity: { duration: 0.28, delay: 0.2 }, y: { duration: 0.4, delay: 0.2 } }
+                : { opacity: { duration: 0.36, delay: 0.4 }, y: { duration: 5.2, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }, default: { duration: 0.45 } }
+            }
             flex={{ base: 'none', lg: 1 }}
             maxW={{ base: '300px', md: '400px', lg: '500px' }}
+            // 3D tilt on hover (profile only)
+            whileHover={reduceMotion ? undefined : { rotateX: 4, rotateY: -6, scale: 1.02 }}
+            style={{ transformStyle: 'preserve-3d', perspective: 800 }}
           >
             <Box
               position="relative"

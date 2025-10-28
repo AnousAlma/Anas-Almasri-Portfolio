@@ -15,14 +15,18 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { FaExternalLinkAlt, FaGithub } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+
+const MotionBox = motion(Box);
 
 const ProjectCard = ({ image, title, description, link, tags, index, github, projectId }) => {
   const cardBg = useColorModeValue('white', 'gray.800');
+  // no idle bobbing on project cards; keep hover effects
   const titleColor = useColorModeValue('gray.900', 'white');
   const descColor = useColorModeValue('gray.600', 'gray.300');
 
   return (
-    <Box
+    <MotionBox
       as={LinkBox}
       bg={cardBg}
       borderRadius="xl"
@@ -37,6 +41,7 @@ const ProjectCard = ({ image, title, description, link, tags, index, github, pro
       cursor="pointer"
       position="relative"
       opacity={1}
+  style={{ willChange: 'transform' }}
     >
     {/* Project Image */}
     <Box position="relative" overflow="hidden">
@@ -140,7 +145,7 @@ const ProjectCard = ({ image, title, description, link, tags, index, github, pro
         </HStack>
       )}
     </VStack>
-    </Box>
+  </MotionBox>
   );
 };
 
@@ -173,7 +178,7 @@ const Projects = () => {
       image: "https://i.ibb.co/rmJGNVF/Screenshot-64.png",
       title: "CodeSensAI",
       description: "Built an AI-driven coding interview simulator that generates timed coding challenges and provides automated feedback on solution correctness and runtime efficiency.",
-      link: "https://codesensai.study/",
+      link: "https://hackthevalley-8b71c.web.app/",
       github: "https://github.com/AnousAlma/codesensai",
       tags: ["Python", "JavaScript", "React", "OpenAI API", "Piston API", "Firebase", "ChakraUI"],
       date: "Oct 2024"
