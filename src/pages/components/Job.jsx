@@ -1,20 +1,25 @@
 import React, { useEffect } from 'react'
 import {
-    Flex,
-    useColorModeValue,
-    Image,
-    Text,
-    ListItem,
-    UnorderedList,
+  Flex,
+  useColorModeValue,
+  Image,
+  Text,
+  ListItem,
+  UnorderedList,
 } from "@chakra-ui/react";
+import { motion } from 'framer-motion';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+
+const MotionFlex = motion(Flex);
 
 const Job = ({animation, logo, name, time, job, location, points}) => {
 
   useEffect(() => {
     AOS.init({duration: 1000});
   }, []);
+
+  // no idle bobbing on job cards; keep hover interactions
 
   const ListItems = points.map((point) => {
     return (
@@ -23,7 +28,16 @@ const Job = ({animation, logo, name, time, job, location, points}) => {
   })
 
   return (
-    <Flex data-aos={animation} flexDir="column" w={{base:"90%", lg:"55%"}} bgColor={useColorModeValue("gray.100", "gray.900")} borderRadius="20px" padding={2} mt={10}>
+    <MotionFlex
+      data-aos={animation}
+      flexDir="column"
+      w={{base:"90%", lg:"55%"}}
+      bgColor={useColorModeValue("gray.100", "gray.900")}
+      borderRadius="20px"
+      padding={2}
+      mt={10}
+  style={{ willChange: 'transform' }}
+    >
       <Flex w="100%" flexDir={{base:"column", lg:"row"}} alignItems={{base:"center", lg:"flex-start"}}>
           <Image src={logo} alt={name} h="75px" m="1em" borderRadius="5px"/>
           <Flex w="100%" flexDir="column" justifyContent="center" alignItems="center" ml={{base:5, lg:0}} mb={{base:5, lg:0}} mt={4}>
@@ -40,7 +54,7 @@ const Job = ({animation, logo, name, time, job, location, points}) => {
         <UnorderedList spacing={3} mt={3} ml={9} mb={6}>
           {ListItems}
         </UnorderedList>
-    </Flex>
+    </MotionFlex>
   )
 }
 

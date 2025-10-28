@@ -6,18 +6,10 @@ import {
   Text,
   VStack,
   useColorModeValue,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton,
-  useDisclosure,
-  Badge,
+  
   SimpleGrid,
   Tooltip,
-  Icon,
-  HStack
+  Icon
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { 
@@ -42,11 +34,10 @@ import {
 
 const MotionBox = motion(Box);
 const MotionText = motion(Text);
+const MotionIcon = motion(Icon);
 
 const InteractiveSkillGrid = () => {
-  const [selectedSkill, setSelectedSkill] = useState(null);
   const [hoveredSkill, setHoveredSkill] = useState(null);
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const bgColor = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.600');
@@ -54,6 +45,7 @@ const InteractiveSkillGrid = () => {
   const subTextColor = useColorModeValue('gray.600', 'gray.400');
   const tooltipBg = useColorModeValue('gray.800', 'gray.200');
   const tooltipColor = useColorModeValue('white', 'gray.800');
+  // reduced motion handled at profile only; skill icons use hover-only interactions
 
   const skills = [
     {
@@ -62,7 +54,7 @@ const InteractiveSkillGrid = () => {
       icon: FaPython,
       color: '#3776ab',
       projects: ['CodeSensAI', 'TISL Research Pipeline', 'Data Processing Tools'],
-      description: 'Primary language for AI/ML development, data analysis, and backend systems'
+      description: 'Built CodeSensAI\'s ML backend and trained diffusion models at TISL for robotic data processing'
     },
     {
       id: 'javascript',
@@ -70,7 +62,7 @@ const InteractiveSkillGrid = () => {
       icon: FaJs,
       color: '#f7df1e',
       projects: ['Souq Marketplace', 'Stack Hacks Website', 'UCL Draw Simulator'],
-      description: 'Modern ES6+ JavaScript for dynamic web applications and API development'
+      description: 'Developed Souq\'s real-time marketplace features and UCL Draw\'s probability simulation engine'
     },
     {
       id: 'java',
@@ -78,7 +70,7 @@ const InteractiveSkillGrid = () => {
       icon: FaJava,
       color: '#ed8b00',
       projects: ['Enterprise Applications', 'Backend Systems', 'Academic Projects'],
-      description: 'Object-oriented programming for enterprise and academic applications'
+      description: 'Implemented object-oriented solutions for academic coursework and enterprise-level applications'
     },
     {
       id: 'reactjs',
@@ -86,7 +78,7 @@ const InteractiveSkillGrid = () => {
       icon: FaReact,
       color: '#61dafb',
       projects: ['Portfolio Website', 'CodeSensAI', 'Souq Marketplace'],
-      description: 'Component-based UI development with hooks, state management, and modern patterns'
+      description: 'Created CodeSensAI\'s interactive frontend, Souq\'s user interface, and this portfolio with modern React patterns'
     },
     {
       id: 'react-native',
@@ -94,7 +86,7 @@ const InteractiveSkillGrid = () => {
       icon: FaReact,
       color: '#61dafb',
       projects: ['Mobile Applications', 'Cross-platform Development'],
-      description: 'Cross-platform mobile app development using React principles'
+      description: 'Developed cross-platform mobile solutions extending web applications to native mobile experiences'
     },
     {
       id: 'assembly',
@@ -102,7 +94,7 @@ const InteractiveSkillGrid = () => {
       icon: FaCode,
       color: '#0066cc',
       projects: ['Low-level Programming', 'Computer Architecture', 'System Programming'],
-      description: 'Low-level programming and computer architecture understanding with RISC-V'
+      description: 'Worked with RISC-V assembly for computer architecture coursework and low-level system optimization'
     },
     {
       id: 'bash',
@@ -110,7 +102,7 @@ const InteractiveSkillGrid = () => {
       icon: FaServer,
       color: '#4eaa25',
       projects: ['Automation Scripts', 'System Administration', 'DevOps'],
-      description: 'Shell scripting for automation and system administration'
+      description: 'Automated deployment workflows and data processing pipelines for research and development projects'
     },
     {
       id: 'unix',
@@ -118,7 +110,7 @@ const InteractiveSkillGrid = () => {
       icon: FaTerminal,
       color: '#333333',
       projects: ['System Administration', 'Server Management', 'Development Environment'],
-      description: 'Unix/Linux system administration and command-line proficiency'
+      description: 'Managed development servers and automated research data workflows in Linux environments at TISL'
     },
     {
       id: 'mongodb',
@@ -126,7 +118,7 @@ const InteractiveSkillGrid = () => {
       icon: SiMongodb,
       color: '#47a248',
       projects: ['Database Design', 'Souq Backend', 'Data Storage Solutions'],
-      description: 'NoSQL database design, aggregation pipelines, and data modeling'
+      description: 'Designed Souq\'s product catalog schema and implemented complex aggregation pipelines for marketplace analytics'
     },
     {
       id: 'flask',
@@ -134,7 +126,7 @@ const InteractiveSkillGrid = () => {
       icon: SiFlask,
       color: '#000000',
       projects: ['Web APIs', 'Backend Services', 'Microservices'],
-      description: 'Lightweight Python web framework for APIs and web applications'
+      description: 'Built REST APIs for CodeSensAI and created lightweight microservices for data processing workflows'
     },
     {
       id: 'firebase',
@@ -142,7 +134,7 @@ const InteractiveSkillGrid = () => {
       icon: SiFirebase,
       color: '#ffca28',
       projects: ['Real-time Applications', 'Authentication', 'Cloud Functions'],
-      description: 'Google\'s platform for web and mobile app development'
+      description: 'Integrated real-time user authentication and cloud functions for seamless app experiences'
     },
     {
       id: 'opencv',
@@ -150,7 +142,7 @@ const InteractiveSkillGrid = () => {
       icon: SiOpencv,
       color: '#5c3ee8',
       projects: ['Computer Vision', 'Image Processing', 'AI Applications'],
-      description: 'Computer vision and image processing library'
+      description: 'Processed robotic vision data at TISL and implemented computer vision features for research applications'
     },
     {
       id: 'numpy',
@@ -158,7 +150,7 @@ const InteractiveSkillGrid = () => {
       icon: SiNumpy,
       color: '#013243',
       projects: ['Data Analysis', 'Scientific Computing', 'ML Preprocessing'],
-      description: 'Numerical computing and array processing for Python'
+      description: 'Processed large robotic datasets at TISL and implemented efficient data transformations for ML pipelines'
     },
     {
       id: 'tensorflow',
@@ -166,7 +158,7 @@ const InteractiveSkillGrid = () => {
       icon: SiTensorflow,
       color: '#ff6f00',
       projects: ['Deep Learning', 'Neural Networks', 'AI Models'],
-      description: 'Google\'s machine learning and deep learning framework'
+      description: 'Translated TensorFlow code into PyTorch for diffusion model training at TISL'
     },
     {
       id: 'pytorch',
@@ -174,7 +166,7 @@ const InteractiveSkillGrid = () => {
       icon: SiPytorch,
       color: '#ee4c2c',
       projects: ['Neural Networks', 'Research', 'AI Development'],
-      description: 'Facebook\'s dynamic neural network framework for research and production'
+      description: 'Implemented custom neural architectures for TISL research and rapid prototyping of ML experiments'
     },
     {
       id: 'ros2',
@@ -182,14 +174,11 @@ const InteractiveSkillGrid = () => {
       icon: SiRos,
       color: '#22314e',
       projects: ['Robotics', 'TISL Research', 'Autonomous Systems'],
-      description: 'Robot Operating System for building robot applications'
+      description: 'Developed robotic data collection pipelines and integrated ML models with robotic systems at TISL'
     }
   ];
 
-  const handleSkillClick = (skill) => {
-    setSelectedSkill(skill);
-    onOpen();
-  };
+  // click-to-open modal removed to keep interactions lightweight; details available via tooltip
 
   return (
     <VStack spacing={6} align="stretch">
@@ -214,7 +203,7 @@ const InteractiveSkillGrid = () => {
             <MotionBox
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              transition={{ opacity: { duration: 0.32, delay: index * 0.08 }, y: { duration: 0.45, delay: index * 0.08 } }}
               whileHover={{ y: -5, transition: { duration: 0.2 } }}
               whileTap={{ scale: 0.95 }}
             >
@@ -225,7 +214,7 @@ const InteractiveSkillGrid = () => {
                 borderRadius="xl"
                 p={4}
                 cursor="pointer"
-                onClick={() => handleSkillClick(skill)}
+                // onClick={() => handleSkillClick(skill)}
                 onMouseEnter={() => setHoveredSkill(skill.id)}
                 onMouseLeave={() => setHoveredSkill(null)}
                 transition="all 0.3s ease"
@@ -249,11 +238,11 @@ const InteractiveSkillGrid = () => {
                 />
                 
                 <VStack spacing={3} position="relative" zIndex={1}>
-                  <Icon
+                  <MotionIcon
                     as={skill.icon}
                     boxSize={8}
                     color={hoveredSkill === skill.id ? skill.color : subTextColor}
-                    transition="color 0.3s ease"
+                    style={{ willChange: 'transform' }}
                   />
                   
                   <Text
@@ -272,57 +261,7 @@ const InteractiveSkillGrid = () => {
         ))}
       </SimpleGrid>
 
-      {/* Modal for skill details */}
-      <Modal isOpen={isOpen} onClose={onClose} size="lg">
-        <ModalOverlay backdropFilter="blur(4px)" />
-        <ModalContent
-          bg={bgColor}
-          border="1px solid"
-          borderColor={borderColor}
-        >
-          <ModalHeader color={textColor}>
-            <HStack>
-              <Icon
-                as={selectedSkill?.icon}
-                boxSize={6}
-                color={selectedSkill?.color}
-              />
-              <Text>{selectedSkill?.name}</Text>
-            </HStack>
-          </ModalHeader>
-          <ModalCloseButton color={textColor} />
-          <ModalBody pb={6}>
-            <VStack align="stretch" spacing={4}>
-              <Text color={subTextColor}>
-                {selectedSkill?.description}
-              </Text>
-              
-              <Box>
-                <Text fontWeight="600" color={textColor} mb={2}>
-                  Related Projects
-                </Text>
-                <VStack align="stretch" spacing={2}>
-                  {selectedSkill?.projects.map((project, index) => (
-                    <Badge
-                      key={index}
-                      variant="subtle"
-                      colorScheme="purple"
-                      px={3}
-                      py={2}
-                      borderRadius="md"
-                      fontSize="sm"
-                      display="flex"
-                      alignItems="center"
-                    >
-                      {project}
-                    </Badge>
-                  ))}
-                </VStack>
-              </Box>
-            </VStack>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+  {/* Using tooltips for lightweight details; modal removed to simplify interaction */}
       <style jsx>{`
         @keyframes pulse {
           0%, 100% { transform: scale(1); opacity: 0.4; }
