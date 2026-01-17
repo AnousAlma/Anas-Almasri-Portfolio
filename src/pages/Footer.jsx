@@ -45,7 +45,7 @@ const Footer = () => {
 
           {/* Copyright */}
           <HStack spacing={2} fontSize="sm" color="gray.400">
-            <Text>© 2024 Anas Almasri. Crafted with React & fueled by curiosity 🚀</Text>
+            <Text>© 2026 Anas Almasri. Crafted with React & fueled by curiosity 🚀</Text>
           </HStack>
         </VStack>
       </Container>
