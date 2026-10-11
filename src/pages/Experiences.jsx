@@ -10,16 +10,18 @@ import {
   ListItem,
   ListIcon,
   Flex,
+  Icon,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-scroll';
 
-import { FaCheckCircle } from 'react-icons/fa';
+import { FaCheckCircle, FaArrowRight } from 'react-icons/fa';
 import { experiences } from '../data/experience';
 
 const MotionFlex = motion(Flex);
 
-const TimelineItem = ({ logo, company, position, duration, location, achievements, index, isLast }) => {
+const TimelineItem = ({ logo, icon, iconColor, company, position, duration, location, achievements, sectionLink, index, isLast }) => {
   const timelineBg = useColorModeValue('gray.200', 'gray.600');
   const cardBg = useColorModeValue('white', 'gray.800');
   const headingColor = useColorModeValue('gray.900', 'white');
@@ -74,16 +76,24 @@ const TimelineItem = ({ logo, company, position, duration, location, achievement
           justifyContent="center"
           p="4px"
         >
-          <Image
-            src={logo}
-            alt={company}
-            w="100%"
-            h="100%"
-            objectFit="cover"
-            borderRadius="full"
-            filter="auto"
-            contrast="1.1"
-          />
+          {logo ? (
+            <Image
+              src={logo}
+              alt={company}
+              w="100%"
+              h="100%"
+              objectFit="cover"
+              borderRadius="full"
+              filter="auto"
+              contrast="1.1"
+            />
+          ) : icon ? (
+            <Icon as={icon} boxSize={5} color={iconColor} aria-label={company} />
+          ) : (
+            <Text fontWeight="600" fontSize="sm" color="gray.900">
+              {company.charAt(0)}
+            </Text>
+          )}
         </Box>
       </Box>
 
@@ -122,9 +132,11 @@ const TimelineItem = ({ logo, company, position, duration, location, achievement
               <Text fontSize="sm" color={textColor} fontWeight="500">
                 {duration}
               </Text>
-              <Text fontSize="sm" color={subtextColor}>
-                {location}
-              </Text>
+              {location && (
+                <Text fontSize="sm" color={subtextColor}>
+                  {location}
+                </Text>
+              )}
             </VStack>
           </Flex>
 
@@ -139,6 +151,34 @@ const TimelineItem = ({ logo, company, position, duration, location, achievement
               </ListItem>
             ))}
           </List>
+
+          {/* Link to a related section */}
+          {sectionLink && (
+            <Box>
+              <Link
+                to={sectionLink.to}
+                spy={true}
+                smooth={true}
+                offset={-80}
+                duration={800}
+                style={{ cursor: 'pointer' }}
+              >
+                <Text
+                  as="span"
+                  display="inline-flex"
+                  alignItems="center"
+                  gap={2}
+                  fontSize="sm"
+                  fontWeight="600"
+                  color="brand.500"
+                  _hover={{ textDecoration: 'underline' }}
+                >
+                  {sectionLink.label}
+                  <Icon as={FaArrowRight} boxSize={3} />
+                </Text>
+              </Link>
+            </Box>
+          )}
         </VStack>
       </Box>
     </MotionFlex>
@@ -192,11 +232,14 @@ const Experiences = () => {
                 <TimelineItem
                   key={index}
                   logo={exp.logo}
+                  icon={exp.icon}
+                  iconColor={exp.iconColor}
                   company={exp.company}
                   position={exp.position}
                   duration={exp.duration}
                   location={exp.location}
                   achievements={exp.achievements}
+                  sectionLink={exp.sectionLink}
                   index={index}
                   isLast={index === experiences.length - 1}
                 />

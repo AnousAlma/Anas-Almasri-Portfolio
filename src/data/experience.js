@@ -1,15 +1,42 @@
-// Newest first
+import { SiMongodb } from 'react-icons/si';
+
+// Newest first. An entry shows `logo` (image URL), else `icon`, else the company's initial.
 export const experiences = [
   {
+    icon: SiMongodb,
+    iconColor: "#47a248",
+    company: "MongoDB",
+    position: "Software Engineering Intern, Docs Platform",
+    duration: "Jun 2026 - Aug 2026",
+    // TODO: add location
+    achievements: [
+      "Owned an LLM-based translation service end to end, replacing a legacy per-word vendor. It processed 60,000+ MDX files at a 10–50x cost reduction.",
+      "Chunked pages along structural boundaries, with safety checks to keep the MDX intact.",
+      "Built an LLM-as-a-judge evaluation suite and set up observability with Braintrust."
+    ]
+  },
+  {
     logo: "https://avatars.githubusercontent.com/u/91031689?s=280&v=4",
-    company: "Toronto Intelligent Systems Laboratory (TISL)",
-    position: "Student Researcher - Robotics Diffusion Policy",
+    company: "Toronto Intelligent Systems Lab (TISL)",
+    position: "Student Researcher",
     duration: "Jun 2025 - Present",
     location: "Toronto, ON",
     achievements: [
-      "Designed and deployed a robotic data collection pipeline on ALOHA stationary robots, generating high-quality datasets across 10+ manipulation benchmarks to support cutting-edge Diffusion Policy research.",
-      "Implemented a scalable PyTorch DataLoader and standardized schema, reducing data preprocessing time by 50% and enabling seamless integration into lab-wide reinforcement learning workflows.",
-      "Validated pipeline integrity by training and benchmarking a Diffusion Policy model on collected datasets, ensuring reproducibility and providing a foundation for future fine-tuning experiments impacting 15+ projects."
+      "Ran ablation studies isolating base-policy failure modes, which informed the verifier design.",
+      "Adapted Diffusion Policy training code to custom simulation data.",
+      "Wrote a custom PyTorch DataLoader that halved preprocessing time across 10+ datasets.",
+      "Collected real-robot demonstration and evaluation data on the ALOHA bimanual rig via teleoperation."
+    ],
+    // Scrolls to the section with this id
+    sectionLink: { label: "See the paper in Research", to: "research" }
+  },
+  {
+    // TODO: fill in the role, dates and bullets, and add a logo and location
+    company: "Amicare",
+    position: "TODO: role",
+    duration: "TODO: dates",
+    achievements: [
+      "TODO: add bullets"
     ]
   },
   {
@@ -19,10 +46,10 @@ export const experiences = [
     duration: "Apr 2025 - Sep 2025",
     location: "Mississauga, ON",
     achievements: [
-      "Developed and deployed a commerce platform used by 100+ businesses and customers, directly supporting $6.6M in annual transaction volume.",
-      "Built customer-facing functionality including account creation, product browsing/ordering, and shipment tracking, improving accessibility and order turnaround using React, REST APIs, and Python.",
-      "Designed administrative dashboards enabling staff to manage orders, products, users, and employees, reducing manual oversight and streamlining operations.",
-      "Automated financial and logistics workflows by integrating QuickBooks API for billing, generating shipment documents, and sending order confirmations, reducing manual processing time by 70%."
+      "Built and deployed a commerce platform used by 100+ businesses and customers, supporting $6.6M in annual transaction volume.",
+      "Built account creation, product browsing and ordering, and shipment tracking with React, REST APIs and Python.",
+      "Built admin dashboards for staff to manage orders, products, users and employees.",
+      "Integrated the QuickBooks API for billing and automated shipment documents and order confirmations, cutting manual processing time by 70%."
     ]
   },
   // {
