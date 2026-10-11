@@ -364,39 +364,6 @@ const About = () => {
           >
             <InteractiveSkillGrid />
           </MotionBox>
-
-          {/* Values Grid
-          <MotionBox
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            <Heading
-              size="lg"
-              textAlign="center"
-              color="gray.900"
-              fontWeight="600"
-              mb={8}
-            >
-              What Drives Me
-            </Heading>
-            
-            <SimpleGrid
-              columns={{ base: 1, sm: 2, lg: 4 }}
-              spacing={6}
-            >
-              {values.map((value, index) => (
-                <ValueCard
-                  key={value.title}
-                  icon={value.icon}
-                  title={value.title}
-                  description={value.description}
-                  delay={index * 0.1 + 0.4}
-                />
-              ))}
-            </SimpleGrid>
-          </MotionBox> */}
         </VStack>
       </Container>
     </Box>
