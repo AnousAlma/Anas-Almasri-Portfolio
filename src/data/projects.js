@@ -1,5 +1,46 @@
-// Shown by default
+import transformerVisualizerImage from '../assets/projects/transformer-visualizer.jpg';
+import paceplanImage from '../assets/projects/paceplan.jpg';
+
+// Shown by default. `image`, `link`, `github`, `tags` and `date` are all optional.
 export const featuredProjects = [
+  {
+    id: "transformer-visualizer",
+    image: transformerVisualizerImage,
+    title: "Transformer Visualizer",
+    description: "Led a 5-person GDSC team building an interactive explorer of GPT-2 and BLOOM-560M internals: tokenization → embeddings → QKV → attention → MLP → output, across 12 layers in English, French and Chinese.",
+    link: "https://transformer-visualizer-eight.vercel.app",
+    github: "https://github.com/gdgutm/Transformer-Visualizer",
+    tags: ["Next.js", "FastAPI", "TransformerLens"],
+    // TODO: add date
+  },
+  {
+    id: "paceplan",
+    image: paceplanImage,
+    title: "PacePlan",
+    description: "AI-powered semester planner that schedules a student's term from their deadlines, courses and commitments, using research-backed study methods.",
+    link: "https://paceplan.net",
+    // TODO: add tags and date
+  },
+  {
+    id: "aiai",
+    // TODO: add a screenshot; the card shows the title on a plain background until then
+    title: "AIAI",
+    description: "Multi-agent AutoML system that turns natural-language requests into end-to-end training pipelines, with a finite-state-machine orchestrator managing ingestion → training → evaluation. 80% average accuracy across vision and NLP tasks; 90%+ less manual ML setup.",
+    github: "https://github.com/FriedricNietzsche/AutoML",
+    tags: ["PyTorch", "scikit-learn", "FastAPI", "Redis", "LangChain", "Socket.io"],
+    // TODO: add date
+  },
+  {
+    id: "souq",
+    image: "https://i.ibb.co/p6Lv3srs/Screenshot-2025-09-19-at-1-23-06-AM.png",
+    title: "Souq",
+    description: "React marketplace built solo in two days for a company's live event. Google Sheets served as the live source of truth so organizers could edit inventory mid-event, with API quota limits, latency and concurrent updates handled. Used by 100+ attendees.",
+    // Intentionally shown without links
+    // link: "https://souq-marketplace.web.app/",
+    // github: "https://github.com/AnousAlma/souq",
+    tags: ["JavaScript", "React", "MongoDB", "Google Sheets API"],
+    date: "Mar 2025"
+  },
   // {
   //   id: "bitarco",
   //   image: "https://i.ibb.co/rmJGNVF/Screenshot-64.png",
@@ -10,16 +51,10 @@ export const featuredProjects = [
   //   tags: ["Web Development", "Business Website", "Responsive Design"],
   //   date: "2024"
   // },
-  {
-    id: "souq",
-    image: "https://i.ibb.co/p6Lv3srs/Screenshot-2025-09-19-at-1-23-06-AM.png",
-    title: "Souq",
-    description: "Delivered a fully functional online marketplace for 100+ users within a 5-day freelance contract, meeting client specifications and launch deadlines.",
-    // link: "https://souq-marketplace.web.app/",
-    // github: "https://github.com/AnousAlma/souq",
-    tags: ["JavaScript", "React", "MongoDB", "Google Sheets API"],
-    date: "Mar 2025"
-  },
+];
+
+// Shown after "View All Projects"
+export const olderProjects = [
   {
     id: "codesensai",
     image: "https://i.ibb.co/rmJGNVF/Screenshot-64.png",
@@ -40,11 +75,7 @@ export const featuredProjects = [
     // github: "https://github.com/AnousAlma/ucl-draw-simulator",
     tags: ["JavaScript", "HTML5", "CSS3", "Algorithm"],
     date: "2023"
-  }
-];
-
-// Shown after "View All Projects"
-export const olderProjects = [
+  },
   {
     id: "stackhacks",
     image: "https://i.ibb.co/9HG5S7t/Screenshot-32.png",

@@ -10,6 +10,7 @@ import {
   Button,
   HStack,
   Tag,
+  Flex,
   LinkBox,
   LinkOverlay,
   useColorModeValue,
@@ -21,8 +22,10 @@ import { featuredProjects, olderProjects } from '../data/projects';
 
 const MotionBox = motion(Box);
 
-const ProjectCard = ({ image, title, description, link, tags, index, github, projectId }) => {
+const ProjectCard = ({ image, title, description, link, tags, date, index, github, projectId }) => {
   const cardBg = useColorModeValue('white', 'gray.800');
+  const placeholderBg = useColorModeValue('brand.50', 'gray.700');
+  const dateColor = useColorModeValue('gray.500', 'gray.400');
   // no idle bobbing on project cards; keep hover effects
   const titleColor = useColorModeValue('gray.900', 'white');
   const descColor = useColorModeValue('gray.600', 'gray.300');
@@ -49,18 +52,32 @@ const ProjectCard = ({ image, title, description, link, tags, index, github, pro
     >
     {/* Project Image */}
     <Box position="relative" overflow="hidden">
-      <Image
-        src={image}
-        alt={title}
-        w="full"
-        h="240px"
-        objectFit="cover"
-        transition="transform 0.4s ease"
-        _groupHover={{
-          transform: 'scale(1.05)',
-        }}
-      />
-      
+      {image ? (
+        <Image
+          src={image}
+          alt={title}
+          w="full"
+          h="240px"
+          objectFit="cover"
+          transition="transform 0.4s ease"
+          _groupHover={{
+            transform: 'scale(1.05)',
+          }}
+        />
+      ) : (
+        <Flex w="full" h="240px" align="center" justify="center" bg={placeholderBg} px={6}>
+          <Text
+            fontFamily="var(--font-display)"
+            fontSize="4xl"
+            fontWeight="600"
+            color="brand.500"
+            textAlign="center"
+          >
+            {title}
+          </Text>
+        </Flex>
+      )}
+
       {/* Overlay */}
       {link && (
         <Box
@@ -116,7 +133,13 @@ const ProjectCard = ({ image, title, description, link, tags, index, github, pro
             {title}
           </Heading>
         )}
-        
+
+        {date && (
+          <Text color={dateColor} fontSize="xs" fontWeight="500">
+            {date}
+          </Text>
+        )}
+
         <Text color={descColor} fontSize="sm" lineHeight="1.6">
           {description}
         </Text>
@@ -200,8 +223,7 @@ const Projects = () => {
               mb={6}
             />
             <Text color={useColorModeValue('gray.600', 'gray.300')} fontSize="lg" lineHeight="1.6">
-              A collection of projects that showcase my passion for creating 
-              meaningful digital experiences and solving real-world problems
+              Selected ML tools and web apps
             </Text>
           </Box>
 
@@ -221,6 +243,7 @@ const Projects = () => {
                   link={project.link}
                   github={project.github}
                   tags={project.tags}
+                  date={project.date}
                   index={index}
                 />
               ))}
