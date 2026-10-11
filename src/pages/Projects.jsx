@@ -26,6 +26,8 @@ const ProjectCard = ({ image, title, description, link, tags, index, github, pro
   // no idle bobbing on project cards; keep hover effects
   const titleColor = useColorModeValue('gray.900', 'white');
   const descColor = useColorModeValue('gray.600', 'gray.300');
+  // The title links to the live site, or to the code when there is no live site
+  const titleLink = link || github;
 
   return (
     <MotionBox
@@ -40,7 +42,7 @@ const ProjectCard = ({ image, title, description, link, tags, index, github, pro
       }}
       transitionDuration="0.4s"
       transitionTimingFunction="ease-out"
-      cursor="pointer"
+      cursor={titleLink ? 'pointer' : 'default'}
       position="relative"
       opacity={1}
   style={{ willChange: 'transform' }}
@@ -60,52 +62,60 @@ const ProjectCard = ({ image, title, description, link, tags, index, github, pro
       />
       
       {/* Overlay */}
-      <Box
-        position="absolute"
-        top="0"
-        left="0"
-        right="0"
-        bottom="0"
-        bg="blackAlpha.600"
-        opacity="0"
-        transition="opacity 0.3s ease"
-        _groupHover={{
-          opacity: 1,
-        }}
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <HStack spacing={4}>
-          <Button
-            size="sm"
-            leftIcon={<FaExternalLinkAlt />}
-            colorScheme="whiteAlpha"
-            variant="solid"
-            bg="whiteAlpha.200"
-            backdropFilter="blur(4px)"
-            _hover={{
-              bg: 'whiteAlpha.300',
-            }}
-            onClick={(e) => {
-              e.preventDefault();
-              window.open(link, '_blank');
-            }}
-          >
-            View Live
-          </Button>
-        </HStack>
-      </Box>
+      {link && (
+        <Box
+          position="absolute"
+          top="0"
+          left="0"
+          right="0"
+          bottom="0"
+          bg="blackAlpha.600"
+          opacity="0"
+          transition="opacity 0.3s ease"
+          _groupHover={{
+            opacity: 1,
+          }}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <HStack spacing={4}>
+            <Button
+              size="sm"
+              leftIcon={<FaExternalLinkAlt />}
+              colorScheme="whiteAlpha"
+              variant="solid"
+              bg="whiteAlpha.200"
+              backdropFilter="blur(4px)"
+              _hover={{
+                bg: 'whiteAlpha.300',
+              }}
+              onClick={(e) => {
+                e.preventDefault();
+                window.open(link, '_blank');
+              }}
+            >
+              View Live
+            </Button>
+          </HStack>
+        </Box>
+      )}
     </Box>
 
     {/* Content */}
     <VStack p={6} align="stretch" spacing={4}>
       <VStack align="stretch" spacing={2}>
-        <LinkOverlay href={link} isExternal>
+        {titleLink ? (
+          <LinkOverlay href={titleLink} isExternal>
+            <Heading size="lg" color={titleColor} fontWeight="600" lineHeight="1.2">
+              {title}
+            </Heading>
+          </LinkOverlay>
+        ) : (
           <Heading size="lg" color={titleColor} fontWeight="600" lineHeight="1.2">
             {title}
           </Heading>
-        </LinkOverlay>
+        )}
         
         <Text color={descColor} fontSize="sm" lineHeight="1.6">
           {description}

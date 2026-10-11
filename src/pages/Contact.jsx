@@ -21,6 +21,15 @@ const ContactMethod = ({ icon, title, value, href, delay }) => {
   const cardBg = useColorModeValue('white', 'gray.800');
   const titleColor = useColorModeValue('gray.900', 'white');
   const valueColor = useColorModeValue('gray.600', 'gray.300');
+  // Methods without a link (location) render as a plain card
+  const linkProps = href
+    ? {
+        as: 'a',
+        href,
+        target: href.startsWith('mailto:') || href.startsWith('tel:') ? '_self' : '_blank',
+        rel: 'noopener noreferrer',
+      }
+    : {};
 
   return (
     <MotionBox
@@ -28,10 +37,7 @@ const ContactMethod = ({ icon, title, value, href, delay }) => {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ opacity: { duration: 0.36, delay }, y: { duration: 0.45, delay } }}
       viewport={{ once: true }}
-      as="a"
-      href={href}
-      target={href.startsWith('mailto:') || href.startsWith('tel:') ? '_self' : '_blank'}
-      rel="noopener noreferrer"
+      {...linkProps}
       textDecoration="none"
       _hover={{ textDecoration: 'none' }}
     >
@@ -49,7 +55,7 @@ const ContactMethod = ({ icon, title, value, href, delay }) => {
           transform: 'translateY(-4px)',
         }}
         transitionDuration="0.3s"
-        cursor="pointer"
+        cursor={href ? 'pointer' : 'default'}
         style={{ willChange: 'transform' }}
       >
         <Icon as={icon} w={8} h={8} color="brand.500" />
@@ -115,7 +121,6 @@ const Contact = () => {
       icon: FaMapMarkerAlt,
       title: 'Location',
       value: site.location,
-      href: 'https://media.licdn.com/dms/image/v2/D4D16AQFl9qxJXG143Q/profile-displaybackgroundimage-shrink_350_1400/B4DZlI2oZHJUAY-/0/1757863905431?e=1762992000&v=beta&t=Sniq3-KcAGwySsw-0U2H6QUiR8t8C_rt_rNQ91f3-58',
     },
     {
       icon: FaLinkedin,

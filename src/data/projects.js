@@ -26,7 +26,8 @@ export const featuredProjects = [
     title: "CodeSensAI",
     description: "Built an AI-driven coding interview simulator that generates timed coding challenges and provides automated feedback on solution correctness and runtime efficiency.",
     link: "https://hackthevalley-8b71c.web.app/",
-    github: "https://github.com/AnousAlma/codesensai",
+    // TODO: this repo returns 404 (private or renamed); restore once it has a public URL
+    // github: "https://github.com/AnousAlma/codesensai",
     tags: ["Python", "JavaScript", "React", "OpenAI API", "Piston API", "Firebase", "ChakraUI"],
     date: "Oct 2024"
   },
