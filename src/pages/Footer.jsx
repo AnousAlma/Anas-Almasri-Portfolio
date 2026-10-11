@@ -8,6 +8,7 @@ import {
   Divider,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
+import { site } from '../data/site';
 
 const MotionBox = motion(Box);
 
@@ -33,11 +34,10 @@ const Footer = () => {
               fontWeight="600"
               color="white"
             >
-              Anas Almasri
+              {site.name}
             </Text>
             <Text color="gray.400" maxW="500px" lineHeight="1.6">
-              Machine Learning Engineer & Software Developer passionate about building 
-              intelligent solutions that make a difference.
+              {site.positioning}
             </Text>
           </VStack>
 
@@ -45,7 +45,7 @@ const Footer = () => {
 
           {/* Copyright */}
           <HStack spacing={2} fontSize="sm" color="gray.400">
-            <Text>© 2026 Anas Almasri. Crafted with React & fueled by curiosity 🚀</Text>
+            <Text>© 2026 {site.name}. Crafted with React & fueled by curiosity 🚀</Text>
           </HStack>
         </VStack>
       </Container>

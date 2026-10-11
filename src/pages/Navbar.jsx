@@ -20,6 +20,7 @@ import {
 import { HamburgerIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { Link } from 'react-scroll';
 import { motion } from 'framer-motion';
+import { site } from '../data/site';
 
 const MotionBox = motion(Box);
 const MotionText = motion(Text);
@@ -135,7 +136,7 @@ export default function Navbar() {
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
             >
-              AA
+              {site.initials}
             </MotionText>
 
             {/* Desktop Navigation */}

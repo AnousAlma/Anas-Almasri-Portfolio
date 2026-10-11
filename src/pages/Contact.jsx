@@ -12,7 +12,8 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaLinkedin, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
+import { site, mailto, socialLinks } from '../data/site';
 
 const MotionBox = motion(Box);
 
@@ -107,43 +108,29 @@ const Contact = () => {
     {
       icon: FaEnvelope,
       title: 'Email',
-      value: 'anask.almasri@gmail.com',
-      href: 'mailto:anask.almasri@gmail.com',
+      value: site.email,
+      href: mailto,
     },
     {
       icon: FaMapMarkerAlt,
       title: 'Location',
-      value: 'Toronto, ON, Canada',
+      value: site.location,
       href: 'https://media.licdn.com/dms/image/v2/D4D16AQFl9qxJXG143Q/profile-displaybackgroundimage-shrink_350_1400/B4DZlI2oZHJUAY-/0/1757863905431?e=1762992000&v=beta&t=Sniq3-KcAGwySsw-0U2H6QUiR8t8C_rt_rNQ91f3-58',
     },
     {
       icon: FaLinkedin,
       title: 'LinkedIn',
       value: 'Connect with me',
-      href: 'https://www.linkedin.com/in/anas-almasri-45491b298/',
+      href: site.linkedin,
     },
   ];
 
-  const socialLinks = [
-    {
-      icon: FaGithub,
-      href: 'https://github.com/anousalma',
-      label: 'GitHub',
-      color: 'gray.700'
-    },
-    {
-      icon: FaLinkedin,
-      href: 'https://www.linkedin.com/in/anas-almasri-45491b298/',
-      label: 'LinkedIn',
-      color: 'blue.600'
-    },
-    {
-      icon: FaEnvelope,
-      href: 'mailto:anask.almasri@gmail.com',
-      label: 'Email',
-      color: 'red.500'
-    }
-  ];
+  const socialColors = {
+    github: 'gray.700',
+    linkedin: 'blue.600',
+    email: 'red.500',
+    resume: 'brand.500',
+  };
 
   return (
     <Box
@@ -181,8 +168,8 @@ const Contact = () => {
               mb={6}
             />
             <Text color={useColorModeValue('gray.600', 'gray.300')} fontSize="lg" lineHeight="1.6" mb={8}>
-              I'm always interested in new opportunities and connecting with 
-              fellow developers. Feel free to reach out!
+              {site.positioning} I'm always interested in new opportunities, so
+              feel free to reach out.
             </Text>
           </MotionBox>
 
@@ -239,7 +226,7 @@ const Contact = () => {
 
               <Button
                 as="a"
-                href="mailto:anask.almasri@gmail.com"
+                href={mailto}
                 size="lg"
                 bg={useColorModeValue('gray.900', 'gray.100')}
                 color={useColorModeValue('white', 'gray.900')}
@@ -269,7 +256,7 @@ const Contact = () => {
                     icon={social.icon}
                     href={social.href}
                     label={social.label}
-                    color={social.color}
+                    color={socialColors[social.id]}
                     delay={index * 0.1 + 0.8}
                   />
                 ))}

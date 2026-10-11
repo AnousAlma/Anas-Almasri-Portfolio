@@ -12,13 +12,16 @@ import {
   Container,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Link } from 'react-scroll';
+import { site, socialLinks } from '../data/site';
 
 const MotionBox = motion(Box);
 const MotionText = motion(Text);
 const MotionHeading = motion(Heading);
+
+// Splits the positioning line around the phrases the hero highlights
+const highlightPattern = new RegExp(`(${site.positioningHighlights.join('|')})`);
 
 export default function Profile() {
   // Dark mode values
@@ -31,26 +34,12 @@ export default function Profile() {
   const borderHoverColor = useColorModeValue('gray.400', 'gray.500');
   const iconColor = useColorModeValue('gray.600', 'gray.400');
 
-  const socialLinks = [
-    {
-      icon: FaGithub,
-      href: 'https://github.com/anousalma',
-      label: 'GitHub',
-      color: useColorModeValue('gray.700', 'gray.300')
-    },
-    {
-      icon: FaLinkedin,
-      href: 'https://www.linkedin.com/in/anas-almasri-45491b298/',
-      label: 'LinkedIn',
-      color: 'blue.500'
-    },
-    {
-      icon: FaEnvelope,
-      href: 'mailto:anask.almasri@gmail.com',
-      label: 'Email',
-      color: 'red.500'
-    }
-  ];
+  const socialColors = {
+    github: useColorModeValue('gray.700', 'gray.300'),
+    linkedin: 'blue.500',
+    email: 'red.500',
+    resume: 'brand.500',
+  };
 
   const reduceMotion = useReducedMotion();
 
@@ -104,7 +93,7 @@ export default function Profile() {
               fontSize={{ base: '4xl', md: '6xl', lg: '7xl' }}
               color={textColor}
             >
-              Anas Almasri
+              {site.name}
             </MotionHeading>
 
             {/* Title/Description */}
@@ -118,18 +107,15 @@ export default function Profile() {
               lineHeight="1.6"
               maxW="500px"
             >
-              Translating ML research into impactful systems. Student researcher at{' '}
-              <Text as="span" color="brand.500" fontWeight="600">
-                Toronto Intelligent Systems Lab
-              </Text>
-              , studying{' '}
-              <Text as="span" color="brand.500" fontWeight="600">
-                Computer Science
-              </Text>
-              {' '}at{' '}
-              <Text as="span" color="brand.500" fontWeight="600">
-                University of Toronto
-              </Text>
+              {site.positioning.split(highlightPattern).map((part, i) =>
+                site.positioningHighlights.includes(part) ? (
+                  <Text as="span" key={i} color="brand.500" fontWeight="600">
+                    {part}
+                  </Text>
+                ) : (
+                  part
+                )
+              )}
             </MotionText>
 
             {/* CTA Buttons */}
@@ -223,7 +209,7 @@ export default function Profile() {
                       w={6}
                       h={6}
                       color={iconColor}
-                      _hover={{ color: social.color }}
+                      _hover={{ color: socialColors[social.id] }}
                       transition="color 0.3s ease"
                     />
                   </motion.a>
@@ -266,8 +252,8 @@ export default function Profile() {
               }}
             >
               <Image
-                src="https://i.ibb.co/f0D0KJd/nice-anas-photo.jpg"
-                alt="Anas Almasri"
+                src={site.photo}
+                alt={site.name}
                 borderRadius="full"
                 objectFit="cover"
                 w="full"
