@@ -99,7 +99,9 @@ export default function Navbar() {
   const navItems = [
     { label: 'About', to: 'about' },
     { label: 'Experience', to: 'experiences' },
+    { label: 'Research', to: 'research' },
     { label: 'Projects', to: 'projects' },
+    { label: 'Education', to: 'education' },
     { label: 'Contact', to: 'contact' },
   ];
 

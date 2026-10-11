@@ -5,8 +5,10 @@ import Navbar from './pages/Navbar'
 import Profile from './pages/Profile'
 import About from './pages/About'
 import Experiences from './pages/Experiences'
+import Research from './pages/Research'
 import Footer from './pages/Footer'
 import Projects from './pages/Projects'
+import Education from './pages/Education'
 import Contact from './pages/Contact'
 import ParticlesComponent from './pages/components/ParticlesComponent'
 
@@ -60,7 +62,9 @@ export default function App() {
             <Profile />
             <About />
             <Experiences />
+            <Research />
             <Projects />
+            <Education />
             <Contact />
           </Container>
           
