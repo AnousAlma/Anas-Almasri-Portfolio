@@ -9,100 +9,108 @@ import {
   List,
   ListItem,
   ListIcon,
+  Grid,
   Flex,
   Icon,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { motion } from 'framer-motion';
 import { Link } from 'react-scroll';
 
 import { FaCheckCircle, FaArrowRight } from 'react-icons/fa';
 import { experiences } from '../data/experience';
 
-const MotionFlex = motion(Flex);
+// Round company logo: `logo` image, else `icon`, else the company's initial
+const LogoBadge = ({ size, logo, logoContain, icon, iconColor, company }) => (
+  <Box
+    w={size}
+    h={size}
+    flexShrink={0}
+    borderRadius="full"
+    bg="white"
+    border="3px solid"
+    borderColor="brand.500"
+    display="flex"
+    alignItems="center"
+    justifyContent="center"
+    shadow="md"
+    overflow="hidden"
+  >
+    {logo ? (
+      <Image
+        src={logo}
+        alt={company}
+        w="100%"
+        h="100%"
+        p={logoContain ? '4px' : 0}
+        objectFit={logoContain ? 'contain' : 'cover'}
+        borderRadius={logoContain ? 'none' : 'full'}
+        filter="auto"
+        contrast="1.1"
+      />
+    ) : icon ? (
+      <Icon as={icon} boxSize="50%" color={iconColor} aria-label={company} />
+    ) : (
+      <Text fontWeight="600" fontSize="2xl" color="gray.900">
+        {company.charAt(0)}
+      </Text>
+    )}
+  </Box>
+);
 
-const TimelineItem = ({ logo, icon, iconColor, company, position, duration, location, achievements, sectionLink, index, isLast }) => {
+const TimelineItem = ({ logo, logoContain, icon, iconColor, company, position, duration, location, achievements, sectionLink, index, isLast }) => {
   const timelineBg = useColorModeValue('gray.200', 'gray.600');
-  const cardBg = useColorModeValue('white', 'gray.800');
+  const cardBg = useColorModeValue('white', 'gray.750');
   const headingColor = useColorModeValue('gray.900', 'white');
-  const textColor = useColorModeValue('gray.600', 'gray.300');
-  const subtextColor = useColorModeValue('gray.500', 'gray.400');
-  const achievementColor = useColorModeValue('gray.700', 'gray.300');
-  const nodeBg = useColorModeValue('white', 'gray.800');
+  const textColor = useColorModeValue('gray.600', 'gray.100');
+  const subtextColor = useColorModeValue('gray.500', 'gray.300');
+  const achievementColor = useColorModeValue('gray.700', 'gray.100');
 
-  // no idle bobbing on timeline items; keep hover interactions
+  // On wide screens the logo alternates between the left and right of the card
+  const logoOnLeft = index % 2 === 0;
+  const logoProps = { logo, logoContain, icon, iconColor, company };
+
   return (
-    <MotionFlex
+    <Grid
       position="relative"
-      pb={isLast ? 0 : 12}
+      templateColumns={{
+        base: 'minmax(0, 1fr)',
+        md: '72px minmax(0, 1fr)',
+        lg: logoOnLeft ? '72px minmax(0, 1fr)' : 'minmax(0, 1fr) 72px',
+      }}
+      columnGap={6}
+      pb={isLast ? 0 : { base: 8, md: 12 }}
     >
-      {/* Timeline Line */}
+      {/* Timeline Line (only while the logos share one side) */}
       {!isLast && (
         <Box
+          display={{ base: 'none', md: 'block', lg: 'none' }}
           position="absolute"
-          left="30px"
-          top="60px"
-          bottom="-48px"
+          left="35px"
+          top="72px"
+          bottom="0"
           w="2px"
           bg={timelineBg}
           zIndex={0}
         />
       )}
 
-      {/* Timeline Node */}
+      {/* Timeline Node (on phones the logo sits inside the card instead) */}
       <Box
+        display={{ base: 'none', md: 'block' }}
+        gridColumn={{ md: 1, lg: logoOnLeft ? 1 : 2 }}
+        gridRow={1}
         position="relative"
         zIndex={1}
-        w="60px"
-        h="60px"
-        borderRadius="full"
-        bg={nodeBg}
-        border="3px solid"
-        borderColor="brand.500"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        flexShrink={0}
-        shadow="md"
-        overflow="hidden"
       >
-        <Box
-          w="32px"
-          h="32px"
-          borderRadius="full"
-          bg="white"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          p="4px"
-        >
-          {logo ? (
-            <Image
-              src={logo}
-              alt={company}
-              w="100%"
-              h="100%"
-              objectFit="cover"
-              borderRadius="full"
-              filter="auto"
-              contrast="1.1"
-            />
-          ) : icon ? (
-            <Icon as={icon} boxSize={5} color={iconColor} aria-label={company} />
-          ) : (
-            <Text fontWeight="600" fontSize="sm" color="gray.900">
-              {company.charAt(0)}
-            </Text>
-          )}
-        </Box>
+        <LogoBadge size="72px" {...logoProps} />
       </Box>
 
       {/* Content */}
       <Box
-        ml={6}
-        flex={1}
+        gridColumn={{ base: 1, md: 2, lg: logoOnLeft ? 2 : 1 }}
+        gridRow={1}
         bg={cardBg}
-        p={6}
+        p={{ base: 6, md: 8 }}
         borderRadius="xl"
         shadow="md"
         _hover={{
@@ -116,24 +124,29 @@ const TimelineItem = ({ logo, icon, iconColor, company, position, duration, loca
           <Flex
             direction={{ base: 'column', sm: 'row' }}
             justify="space-between"
-            align={{ base: 'flex-start', sm: 'center' }}
-            gap={2}
+            align="flex-start"
+            gap={{ base: 2, sm: 6 }}
           >
-            <VStack align="flex-start" spacing={1}>
-              <Heading size="md" color={headingColor} fontWeight="600">
-                {position}
-              </Heading>
-              <Text color="brand.500" fontWeight="600" fontSize="lg">
-                {company}
-              </Text>
-            </VStack>
+            <Flex align="center" gap={4}>
+              <Box display={{ base: 'block', md: 'none' }}>
+                <LogoBadge size="56px" {...logoProps} />
+              </Box>
+              <VStack align="flex-start" spacing={1}>
+                <Heading as="h3" fontSize={{ base: 'xl', md: '2xl' }} color={headingColor} fontWeight="600" lineHeight="1.3">
+                  {position}
+                </Heading>
+                <Text color="accent" fontWeight="600" fontSize="lg">
+                  {company}
+                </Text>
+              </VStack>
+            </Flex>
 
-            <VStack align={{ base: 'flex-start', sm: 'flex-end' }} spacing={1} flexShrink={0}>
-              <Text fontSize="sm" color={textColor} fontWeight="500">
+            <VStack align={{ base: 'flex-start', sm: 'flex-end' }} spacing={1} flexShrink={0} pt={{ sm: 1 }}>
+              <Text fontSize="md" color={textColor} fontWeight="500">
                 {duration}
               </Text>
               {location && (
-                <Text fontSize="sm" color={subtextColor}>
+                <Text fontSize="md" color={subtextColor}>
                   {location}
                 </Text>
               )}
@@ -144,8 +157,8 @@ const TimelineItem = ({ logo, icon, iconColor, company, position, duration, loca
           <List spacing={3}>
             {achievements.map((achievement, i) => (
               <ListItem key={i} display="flex" alignItems="flex-start">
-                <ListIcon as={FaCheckCircle} color="brand.500" mt={0.5} flexShrink={0} />
-                <Text color={achievementColor} lineHeight="1.6" fontSize="sm">
+                <ListIcon as={FaCheckCircle} color="accent" mt={1.5} flexShrink={0} />
+                <Text color={achievementColor} lineHeight="1.7" fontSize="md">
                   {achievement}
                 </Text>
               </ListItem>
@@ -168,9 +181,9 @@ const TimelineItem = ({ logo, icon, iconColor, company, position, duration, loca
                   display="inline-flex"
                   alignItems="center"
                   gap={2}
-                  fontSize="sm"
+                  fontSize="md"
                   fontWeight="600"
-                  color="brand.500"
+                  color="accent"
                   _hover={{ textDecoration: 'underline' }}
                 >
                   {sectionLink.label}
@@ -181,22 +194,22 @@ const TimelineItem = ({ logo, icon, iconColor, company, position, duration, loca
           )}
         </VStack>
       </Box>
-    </MotionFlex>
+    </Grid>
   );
 };
+
 const Experiences = () => {
   return (
     <Box
       id="experiences"
       py={{ base: '80px', md: '120px' }}
-      bg={useColorModeValue('white', 'gray.900')}
     >
       <Container maxW="container.xl">
         <VStack spacing={{ base: 12, md: 16 }} align="stretch">
           {/* Section Header */}
           <Box
             textAlign="center"
-            maxW="600px"
+            maxW="720px"
             mx="auto"
           >
             <Heading
@@ -216,14 +229,14 @@ const Experiences = () => {
               borderRadius="full"
               mb={6}
             />
-            <Text color={useColorModeValue('gray.600', 'gray.300')} fontSize="lg" lineHeight="1.6">
+            <Text color={useColorModeValue('gray.600', 'gray.100')} fontSize="lg" lineHeight="1.6">
               My professional journey and the experiences that have shaped my skills
             </Text>
           </Box>
 
           {/* Timeline */}
           <Box
-            maxW="800px"
+            maxW="960px"
             mx="auto"
             w="full"
           >
@@ -232,6 +245,7 @@ const Experiences = () => {
                 <TimelineItem
                   key={index}
                   logo={exp.logo}
+                  logoContain={exp.logoContain}
                   icon={exp.icon}
                   iconColor={exp.iconColor}
                   company={exp.company}

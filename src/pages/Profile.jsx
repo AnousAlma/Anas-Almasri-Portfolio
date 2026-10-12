@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Link } from 'react-scroll';
+import { FaFileAlt } from 'react-icons/fa';
 import { site, socialLinks } from '../data/site';
 
 const MotionBox = motion(Box);
@@ -26,19 +27,41 @@ const highlightPattern = new RegExp(`(${site.positioningHighlights.join('|')})`)
 export default function Profile() {
   // Dark mode values
   const textColor = useColorModeValue('gray.900', 'white');
-  const subtextColor = useColorModeValue('gray.600', 'gray.300');
+  const subtextColor = useColorModeValue('gray.600', 'gray.100');
   const buttonBg = useColorModeValue('gray.900', 'gray.100');
   const buttonColor = useColorModeValue('white', 'gray.900');
   const buttonHoverBg = useColorModeValue('gray.800', 'gray.200');
   const borderColor = useColorModeValue('gray.300', 'gray.600');
   const borderHoverColor = useColorModeValue('gray.400', 'gray.500');
-  const iconColor = useColorModeValue('gray.600', 'gray.400');
+  const iconColor = useColorModeValue('gray.600', 'gray.300');
+  const outlineHoverBg = useColorModeValue('gray.50', 'gray.800');
+
+  // Shared by the secondary CTA buttons
+  const outlineButtonProps = {
+    size: 'lg',
+    variant: 'outline',
+    borderColor,
+    color: subtextColor,
+    px: 8,
+    py: 6,
+    fontSize: 'md',
+    fontWeight: '500',
+    borderRadius: 'full',
+    _hover: {
+      bg: outlineHoverBg,
+      borderColor: borderHoverColor,
+      transform: 'translateY(-2px)',
+    },
+    _active: {
+      transform: 'translateY(0)',
+    },
+    transition: 'all 0.3s ease',
+  };
 
   const socialColors = {
-    github: useColorModeValue('gray.700', 'gray.300'),
+    github: useColorModeValue('gray.700', 'gray.100'),
     linkedin: 'blue.500',
     email: 'red.500',
-    resume: 'brand.500',
   };
 
   const reduceMotion = useReducedMotion();
@@ -109,7 +132,7 @@ export default function Profile() {
             >
               {site.positioning.split(highlightPattern).map((part, i) =>
                 site.positioningHighlights.includes(part) ? (
-                  <Text as="span" key={i} color="brand.500" fontWeight="600">
+                  <Text as="span" key={i} color="accent" fontWeight="600">
                     {part}
                   </Text>
                 ) : (
@@ -124,7 +147,7 @@ export default function Profile() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
             >
-              <HStack spacing={4} justify={{ base: 'center', lg: 'flex-start' }}>
+              <Flex wrap="wrap" gap={4} justify={{ base: 'center', lg: 'flex-start' }}>
                 <Link
                   to="contact"
                   spy={true}
@@ -162,30 +185,24 @@ export default function Profile() {
                   offset={-80}
                   duration={800}
                 >
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    borderColor={borderColor}
-                    color={subtextColor}
-                    px={8}
-                    py={6}
-                    fontSize="md"
-                    fontWeight="500"
-                    borderRadius="full"
-                    _hover={{
-                      bg: useColorModeValue('gray.50', 'gray.800'),
-                      borderColor: borderHoverColor,
-                      transform: 'translateY(-2px)',
-                    }}
-                    _active={{
-                      transform: 'translateY(0)',
-                    }}
-                    transition="all 0.3s ease"
-                  >
+                  <Button {...outlineButtonProps}>
                     View Work
                   </Button>
                 </Link>
-              </HStack>
+
+                {site.resumeUrl && (
+                  <Button
+                    as="a"
+                    href={site.resumeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    leftIcon={<FaFileAlt />}
+                    {...outlineButtonProps}
+                  >
+                    Resume
+                  </Button>
+                )}
+              </Flex>
             </MotionBox>
 
             {/* Social Links */}

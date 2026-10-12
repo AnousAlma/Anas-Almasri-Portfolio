@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { ChakraProvider, Box, Container, extendTheme } from '@chakra-ui/react'
+import { ChakraProvider, Box, Container, extendTheme, useColorModeValue } from '@chakra-ui/react'
 import './App.css'
 import Navbar from './pages/Navbar'
 import Profile from './pages/Profile'
@@ -23,13 +23,26 @@ const theme = extendTheme({
     body: "'Inter', sans-serif",
   },
   colors: {
+    // Dark-mode card surface: clearly lighter than the gray.900 page behind it
+    gray: {
+      750: '#252d3d',
+    },
     brand: {
       50: '#f0f4ff',
       100: '#e0e7ff',
+      200: '#c7d2fe',
+      300: '#a5b4fc',
+      400: '#818cf8',
       500: '#6366f1',
       600: '#5856eb',
       700: '#4c46d6',
     }
+  },
+  semanticTokens: {
+    colors: {
+      // Brand colour for text and icons; lighter in dark mode so it stays readable
+      accent: { default: 'brand.500', _dark: 'brand.300' },
+    },
   },
   styles: {
     global: (props) => ({
@@ -42,6 +55,33 @@ const theme = extendTheme({
   },
 })
 
+// Soft colour washes fixed behind the page; the particle network drifts on top of them
+function Backdrop() {
+  const washes = useColorModeValue(
+    // Sized relative to the viewport on small screens so they stay blobs rather than filling a phone
+    [
+      'radial-gradient(min(36rem, 60vw) circle at 10% 10%, rgba(99, 102, 241, 0.24), rgba(99, 102, 241, 0.11) 38%, transparent 68%)',
+      'radial-gradient(min(38rem, 64vw) circle at 90% 40%, rgba(56, 189, 248, 0.28), rgba(56, 189, 248, 0.13) 38%, transparent 68%)',
+      'radial-gradient(min(36rem, 60vw) circle at 38% 98%, rgba(168, 85, 247, 0.19), rgba(168, 85, 247, 0.09) 38%, transparent 68%)',
+    ],
+    [
+      'radial-gradient(42rem circle at 8% 4%, rgba(99, 102, 241, 0.22), transparent 62%)',
+      'radial-gradient(46rem circle at 96% 34%, rgba(56, 189, 248, 0.12), transparent 62%)',
+      'radial-gradient(44rem circle at 30% 100%, rgba(168, 85, 247, 0.16), transparent 62%)',
+    ]
+  )
+
+  return (
+    <Box
+      position="fixed"
+      inset={0}
+      zIndex={-2}
+      pointerEvents="none"
+      backgroundImage={washes.join(', ')}
+    />
+  )
+}
+
 export default function App() {
   return (
     <ChakraProvider theme={theme}>
@@ -50,13 +90,14 @@ export default function App() {
         position="relative"
         overflow="hidden"
       >
+        <Backdrop />
         <ParticlesComponent id="particles" />
         
         <Box position="relative" zIndex={1}>
           <Navbar />
           <Container 
             maxW="container.xl" 
-            px={{ base: 6, md: 8, lg: 12 }}
+            px={{ base: 2, md: 8, lg: 12 }}
             mx="auto"
           >
             <Profile />

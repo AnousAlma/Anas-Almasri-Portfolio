@@ -8,19 +8,20 @@ import {
   HStack,
   Icon,
   Button,
+  Flex,
   SimpleGrid,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { FaLinkedin, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaLinkedin, FaEnvelope, FaMapMarkerAlt, FaFileAlt } from 'react-icons/fa';
 import { site, mailto, socialLinks } from '../data/site';
 
 const MotionBox = motion(Box);
 
 const ContactMethod = ({ icon, title, value, href, delay }) => {
-  const cardBg = useColorModeValue('white', 'gray.800');
+  const cardBg = useColorModeValue('white', 'gray.750');
   const titleColor = useColorModeValue('gray.900', 'white');
-  const valueColor = useColorModeValue('gray.600', 'gray.300');
+  const valueColor = useColorModeValue('gray.600', 'gray.100');
   // Methods without a link (location) render as a plain card
   const linkProps = href
     ? {
@@ -58,7 +59,7 @@ const ContactMethod = ({ icon, title, value, href, delay }) => {
         cursor={href ? 'pointer' : 'default'}
         style={{ willChange: 'transform' }}
       >
-        <Icon as={icon} w={8} h={8} color="brand.500" />
+        <Icon as={icon} w={8} h={8} color="accent" />
         <VStack spacing={2}>
           <Text fontWeight="600" color={titleColor} fontSize="lg">
             {title}
@@ -73,8 +74,8 @@ const ContactMethod = ({ icon, title, value, href, delay }) => {
 };
 
 const SocialLink = ({ icon, href, label, color, delay }) => {
-  const socialBg = useColorModeValue('white', 'gray.800');
-  const socialHoverBg = useColorModeValue(`${color}.50`, 'gray.700');
+  const socialBg = useColorModeValue('white', 'gray.700');
+  const socialHoverBg = useColorModeValue(`${color}.50`, 'gray.600');
 
   return (
     <MotionBox
@@ -134,14 +135,17 @@ const Contact = () => {
     github: 'gray.700',
     linkedin: 'blue.600',
     email: 'red.500',
-    resume: 'brand.500',
   };
+
+  const outlineBorder = useColorModeValue('gray.300', 'gray.600');
+  const outlineColor = useColorModeValue('gray.600', 'gray.100');
+  const outlineHoverBg = useColorModeValue('gray.50', 'gray.600');
+  const outlineHoverBorder = useColorModeValue('gray.400', 'gray.500');
 
   return (
     <Box
       id="contact"
       py={{ base: '80px', md: '120px' }}
-      bg={useColorModeValue('gray.50', 'gray.800')}
     >
       <Container maxW="container.xl">
         <VStack spacing={{ base: 12, md: 16 }} align="stretch">
@@ -172,7 +176,7 @@ const Contact = () => {
               borderRadius="full"
               mb={6}
             />
-            <Text color={useColorModeValue('gray.600', 'gray.300')} fontSize="lg" lineHeight="1.6" mb={8}>
+            <Text color={useColorModeValue('gray.600', 'gray.100')} fontSize="lg" lineHeight="1.6" mb={8}>
               {site.positioning} I'm always interested in new opportunities, so
               feel free to reach out.
             </Text>
@@ -211,7 +215,7 @@ const Contact = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
             viewport={{ once: true }}
             textAlign="center"
-            bg={useColorModeValue('white', 'gray.800')}
+            bg={useColorModeValue('white', 'gray.750')}
             p={8}
             borderRadius="xl"
             shadow="md"
@@ -223,35 +227,67 @@ const Contact = () => {
                 <Heading size="lg" color={useColorModeValue('gray.900', 'white')} fontWeight="600">
                   Ready to Start a Project?
                 </Heading>
-                <Text color={useColorModeValue('gray.600', 'gray.300')} lineHeight="1.6">
+                <Text color={useColorModeValue('gray.600', 'gray.100')} lineHeight="1.6">
                   Whether it's an AI-powered application, machine learning research, or 
                   intelligent system development, I'd love to help bring your ideas to life.
                 </Text>
               </VStack>
 
-              <Button
-                as="a"
-                href={mailto}
-                size="lg"
-                bg={useColorModeValue('gray.900', 'gray.100')}
-                color={useColorModeValue('white', 'gray.900')}
-                px={8}
-                py={6}
-                fontSize="md"
-                fontWeight="500"
-                borderRadius="full"
-                _hover={{
-                  bg: useColorModeValue('gray.800', 'gray.200'),
-                  transform: 'translateY(-2px)',
-                  boxShadow: 'lg',
-                }}
-                _active={{
-                  transform: 'translateY(0)',
-                }}
-                transition="all 0.3s ease"
-              >
-                Send me an Email
-              </Button>
+              <Flex wrap="wrap" gap={4} justify="center">
+                <Button
+                  as="a"
+                  href={mailto}
+                  size="lg"
+                  bg={useColorModeValue('gray.900', 'gray.100')}
+                  color={useColorModeValue('white', 'gray.900')}
+                  px={8}
+                  py={6}
+                  fontSize="md"
+                  fontWeight="500"
+                  borderRadius="full"
+                  _hover={{
+                    bg: useColorModeValue('gray.800', 'gray.200'),
+                    transform: 'translateY(-2px)',
+                    boxShadow: 'lg',
+                  }}
+                  _active={{
+                    transform: 'translateY(0)',
+                  }}
+                  transition="all 0.3s ease"
+                >
+                  Send me an Email
+                </Button>
+
+                {site.resumeUrl && (
+                  <Button
+                    as="a"
+                    href={site.resumeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    leftIcon={<FaFileAlt />}
+                    size="lg"
+                    variant="outline"
+                    borderColor={outlineBorder}
+                    color={outlineColor}
+                    px={8}
+                    py={6}
+                    fontSize="md"
+                    fontWeight="500"
+                    borderRadius="full"
+                    _hover={{
+                      bg: outlineHoverBg,
+                      borderColor: outlineHoverBorder,
+                      transform: 'translateY(-2px)',
+                    }}
+                    _active={{
+                      transform: 'translateY(0)',
+                    }}
+                    transition="all 0.3s ease"
+                  >
+                    Resume
+                  </Button>
+                )}
+              </Flex>
 
               {/* Social Links */}
               <HStack spacing={4} pt={4}>

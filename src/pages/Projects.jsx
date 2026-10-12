@@ -15,20 +15,21 @@ import {
   LinkOverlay,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { FaExternalLinkAlt, FaGithub } from 'react-icons/fa';
-import { motion } from 'framer-motion';
+import { FaExternalLinkAlt, FaGithub, FaChevronDown } from 'react-icons/fa';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { scroller } from 'react-scroll';
 import { site } from '../data/site';
 import { featuredProjects, olderProjects } from '../data/projects';
 
 const MotionBox = motion(Box);
 
-const ProjectCard = ({ image, title, description, link, tags, date, index, github, projectId }) => {
-  const cardBg = useColorModeValue('white', 'gray.800');
+const ProjectCard = ({ image, title, description, link, tags, date, index, github, projectId, revealDelay }) => {
+  const cardBg = useColorModeValue('white', 'gray.750');
   const placeholderBg = useColorModeValue('brand.50', 'gray.700');
-  const dateColor = useColorModeValue('gray.500', 'gray.400');
+  const dateColor = useColorModeValue('gray.500', 'gray.300');
   // no idle bobbing on project cards; keep hover effects
   const titleColor = useColorModeValue('gray.900', 'white');
-  const descColor = useColorModeValue('gray.600', 'gray.300');
+  const descColor = useColorModeValue('gray.600', 'gray.100');
   // The title links to the live site, or to the code when there is no live site
   const titleLink = link || github;
 
@@ -43,10 +44,23 @@ const ProjectCard = ({ image, title, description, link, tags, date, index, githu
         shadow: '2xl',
         transform: 'translateY(-8px)',
       }}
+      transitionProperty="transform, box-shadow"
       transitionDuration="0.4s"
       transitionTimingFunction="ease-out"
+      // Cards revealed by "View All Projects" fade in one after another
+      {...(revealDelay != null && {
+        initial: { opacity: 0 },
+        animate: { opacity: 1 },
+        transition: { duration: 0.45, delay: revealDelay },
+      })}
       cursor={titleLink ? 'pointer' : 'default'}
       position="relative"
+      // Each card's rows (image, title, date, description, tags, links) share the grid's
+      // row tracks, so they line up across the cards in a row
+      display="grid"
+      gridTemplateRows="subgrid"
+      gridRow="span 6"
+      mb={{ base: 8, md: 10 }}
       opacity={1}
   style={{ willChange: 'transform' }}
     >
@@ -70,7 +84,7 @@ const ProjectCard = ({ image, title, description, link, tags, date, index, githu
             fontFamily="var(--font-display)"
             fontSize="4xl"
             fontWeight="600"
-            color="brand.500"
+            color="accent"
             textAlign="center"
           >
             {title}
@@ -119,33 +133,39 @@ const ProjectCard = ({ image, title, description, link, tags, date, index, githu
       )}
     </Box>
 
-    {/* Content */}
-    <VStack p={6} align="stretch" spacing={4}>
-      <VStack align="stretch" spacing={2}>
-        {titleLink ? (
-          <LinkOverlay href={titleLink} isExternal>
-            <Heading size="lg" color={titleColor} fontWeight="600" lineHeight="1.2">
-              {title}
-            </Heading>
-          </LinkOverlay>
-        ) : (
+    {/* Title */}
+    <Box px={6} pt={6}>
+      {titleLink ? (
+        <LinkOverlay href={titleLink} isExternal>
           <Heading size="lg" color={titleColor} fontWeight="600" lineHeight="1.2">
             {title}
           </Heading>
-        )}
+        </LinkOverlay>
+      ) : (
+        <Heading size="lg" color={titleColor} fontWeight="600" lineHeight="1.2">
+          {title}
+        </Heading>
+      )}
+    </Box>
 
-        {date && (
-          <Text color={dateColor} fontSize="xs" fontWeight="500">
-            {date}
-          </Text>
-        )}
-
-        <Text color={descColor} fontSize="sm" lineHeight="1.6">
-          {description}
+    {/* Date */}
+    <Box px={6} pt={date ? 2 : 0}>
+      {date && (
+        <Text color={dateColor} fontSize="xs" fontWeight="500">
+          {date}
         </Text>
-      </VStack>
+      )}
+    </Box>
 
-      {/* Technologies */}
+    {/* Description */}
+    <Box px={6} pt={2}>
+      <Text color={descColor} fontSize="sm" lineHeight="1.6">
+        {description}
+      </Text>
+    </Box>
+
+    {/* Technologies */}
+    <Box px={6} pt={tags ? 4 : 0}>
       {tags && (
         <HStack spacing={2} flexWrap="wrap">
           {tags.map((tag, i) => (
@@ -161,41 +181,72 @@ const ProjectCard = ({ image, title, description, link, tags, date, index, githu
           ))}
         </HStack>
       )}
+    </Box>
 
-      {/* GitHub Link */}
+    {/* GitHub Link */}
+    <Box px={6} pt={github ? 6 : 0} pb={6}>
       {github && (
-        <HStack pt={2}>
-          <Button
-            as="a"
-            href={github}
-            target="_blank"
-            rel="noopener noreferrer"
-            leftIcon={<FaGithub />}
-            size="sm"
-            variant="ghost"
-            colorScheme="gray"
-          >
-            GitHub
-          </Button>
-        </HStack>
+        <Button
+          as="a"
+          href={github}
+          target="_blank"
+          rel="noopener noreferrer"
+          leftIcon={<FaGithub />}
+          size="sm"
+          variant="ghost"
+          colorScheme="gray"
+        >
+          GitHub
+        </Button>
       )}
-    </VStack>
+    </Box>
   </MotionBox>
   );
 };
 
 const Projects = () => {
   const [showAllProjects, setShowAllProjects] = useState(false);
-  
-  const displayedProjects = showAllProjects 
-    ? [...featuredProjects, ...olderProjects] 
-    : featuredProjects;
+  // True once the older projects have finished expanding; until then they are clipped
+  const [expandSettled, setExpandSettled] = useState(false);
+  const reduceMotion = useReducedMotion();
+
+  const toggleProjects = () => {
+    setExpandSettled(false);
+    if (showAllProjects) {
+      // Follow the collapse so the reader isn't left further down the page
+      scroller.scrollTo('projects', { smooth: !reduceMotion, duration: 600, offset: -80 });
+    }
+    setShowAllProjects(!showAllProjects);
+  };
+
+  const renderCard = (project, index, revealDelay) => (
+    <ProjectCard
+      key={project.id}
+      projectId={project.id}
+      image={project.image}
+      title={project.title}
+      description={project.description}
+      link={project.link}
+      github={project.github}
+      tags={project.tags}
+      date={project.date}
+      index={index}
+      revealDelay={revealDelay}
+    />
+  );
+
+  // Vertical spacing comes from each card's bottom margin: a row gap here would be added
+  // between the rows inside every card too
+  const gridProps = {
+    columns: { base: 1, md: 2, lg: 3 },
+    spacingX: { base: 8, md: 10 },
+    spacingY: 0,
+  };
 
   return (
     <Box
       id="projects"
       py={{ base: '80px', md: '120px' }}
-      bg={useColorModeValue('white', 'gray.900')}
     >
       <Container maxW="container.xl">
         <VStack spacing={{ base: 12, md: 16 }} align="stretch">
@@ -222,45 +273,66 @@ const Projects = () => {
               borderRadius="full"
               mb={6}
             />
-            <Text color={useColorModeValue('gray.600', 'gray.300')} fontSize="lg" lineHeight="1.6">
+            <Text color={useColorModeValue('gray.600', 'gray.100')} fontSize="lg" lineHeight="1.6">
               Selected ML tools and web apps
             </Text>
           </Box>
 
           {/* Projects Grid */}
           <Box>
-            <SimpleGrid
-              columns={{ base: 1, md: 2, lg: 3 }}
-              spacing={{ base: 8, md: 10 }}
-            >
-              {displayedProjects.map((project, index) => (
-                <ProjectCard
-                  key={project.id}
-                  projectId={project.id}
-                  image={project.image}
-                  title={project.title}
-                  description={project.description}
-                  link={project.link}
-                  github={project.github}
-                  tags={project.tags}
-                  date={project.date}
-                  index={index}
-                />
-              ))}
+            <SimpleGrid {...gridProps}>
+              {featuredProjects.map((project, index) => renderCard(project, index))}
             </SimpleGrid>
+
+            {/* Older projects, expanded by the button below */}
+            <AnimatePresence initial={false}>
+              {showAllProjects && (
+                <MotionBox
+                  key="older-projects"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={
+                    reduceMotion
+                      ? { duration: 0 }
+                      : { height: { duration: 0.7, ease: [0.4, 0, 0.2, 1] }, opacity: { duration: 0.3 } }
+                  }
+                  onAnimationComplete={(definition) => {
+                    if (definition.height === 'auto') setExpandSettled(true);
+                  }}
+                  // Clipped while the height animates; the side padding keeps card shadows visible
+                  overflow={expandSettled ? 'visible' : 'hidden'}
+                  mx={-6}
+                  px={6}
+                >
+                  <SimpleGrid {...gridProps}>
+                    {olderProjects.map((project, index) =>
+                      renderCard(project, featuredProjects.length + index, reduceMotion ? 0 : 0.05 + index * 0.07)
+                    )}
+                  </SimpleGrid>
+                </MotionBox>
+              )}
+            </AnimatePresence>
           </Box>
             
             {/* View All/Less Button */}
             <Box
               textAlign="center"
-              pt={8}
             >
               <Button
-                onClick={() => setShowAllProjects(!showAllProjects)}
+                onClick={toggleProjects}
+                rightIcon={
+                  <Box
+                    as={FaChevronDown}
+                    boxSize={3}
+                    transition="transform 0.3s ease"
+                    transform={showAllProjects ? 'rotate(180deg)' : 'rotate(0deg)'}
+                  />
+                }
                 size="lg"
                 variant="outline"
                 borderColor={useColorModeValue('gray.300', 'gray.600')}
-                color={useColorModeValue('gray.700', 'gray.300')}
+                color={useColorModeValue('gray.700', 'gray.100')}
                 _hover={{
                   bg: useColorModeValue('gray.50', 'gray.700'),
                   borderColor: useColorModeValue('gray.400', 'gray.500'),
@@ -281,7 +353,7 @@ const Projects = () => {
             pt={8}
           >
             <VStack spacing={4}>
-              <Text color={useColorModeValue('gray.600', 'gray.300')} fontSize="lg">
+              <Text color={useColorModeValue('gray.600', 'gray.100')} fontSize="lg">
                 Want to see more of my work?
               </Text>
               <Button
@@ -293,7 +365,7 @@ const Projects = () => {
                 size="lg"
                 variant="outline"
                 borderColor={useColorModeValue('gray.300', 'gray.600')}
-                color={useColorModeValue('gray.700', 'gray.300')}
+                color={useColorModeValue('gray.700', 'gray.100')}
                 _hover={{
                   bg: useColorModeValue('gray.50', 'gray.700'),
                   borderColor: useColorModeValue('gray.400', 'gray.500'),

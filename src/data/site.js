@@ -1,4 +1,5 @@
-import { FaGithub, FaLinkedin, FaEnvelope, FaFileAlt } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
+import profilePhoto from '../assets/profile.jpg';
 
 export const site = {
   name: 'Anas Almasri',
@@ -9,12 +10,12 @@ export const site = {
   // Phrases of the positioning line that the hero highlights
   positioningHighlights: ['University of Toronto', 'robot learning'],
   email: 'anask.almasri@gmail.com',
-  linkedin: 'https://www.linkedin.com/in/anas-almasri-45491b298/',
+  linkedin: 'https://www.linkedin.com/in/AnasMasri/',
   github: 'https://github.com/anousalma',
-  // TODO: add a resume URL; a resume link appears next to the social links once this is set
-  resumeUrl: null,
+  // Served from public/; the Resume buttons are hidden when this is null
+  resumeUrl: `${process.env.PUBLIC_URL}/Anas-Almasri-Resume.pdf`,
   location: 'Toronto, ON, Canada',
-  photo: 'https://i.ibb.co/f0D0KJd/nice-anas-photo.jpg',
+  photo: profilePhoto,
 };
 
 export const mailto = `mailto:${site.email}`;
@@ -24,5 +25,4 @@ export const socialLinks = [
   { id: 'github', label: 'GitHub', icon: FaGithub, href: site.github },
   { id: 'linkedin', label: 'LinkedIn', icon: FaLinkedin, href: site.linkedin },
   { id: 'email', label: 'Email', icon: FaEnvelope, href: mailto },
-  { id: 'resume', label: 'Resume', icon: FaFileAlt, href: site.resumeUrl },
-].filter((link) => link.href);
+];

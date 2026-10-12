@@ -1,14 +1,27 @@
 import { SiMongodb } from 'react-icons/si';
+import uoftLogo from '../assets/logos/uoft.png';
+import amicareLogo from '../assets/logos/amicare.jpg';
 
-// Newest first. An entry shows `logo` (image URL), else `icon`, else the company's initial.
+// Newest first. An entry shows `logo` (image URL or imported image), else `icon`, else the company's initial.
+// `logoContain` shows the whole logo with a margin instead of filling the circle.
 export const experiences = [
+  {
+    logo: uoftLogo,
+    logoContain: true,
+    company: "University of Toronto",
+    position: "Teaching Assistant, Theory of Computation",
+    duration: "Sep 2026 - Present",
+    achievements: [
+      "Teaching assistant for Introduction to the Theory of Computation (CSC236), which covers induction, recurrences, program correctness and formal languages."
+    ]
+  },
   {
     icon: SiMongodb,
     iconColor: "#47a248",
     company: "MongoDB",
     position: "Software Engineering Intern, Docs Platform",
     duration: "Jun 2026 - Aug 2026",
-    // TODO: add location
+    location: "Toronto, ON",
     achievements: [
       "Owned an LLM-based translation service end to end, replacing a legacy per-word vendor. It processed 60,000+ MDX files at a 10–50x cost reduction.",
       "Chunked pages along structural boundaries, with safety checks to keep the MDX intact.",
@@ -16,10 +29,22 @@ export const experiences = [
     ]
   },
   {
+    logo: amicareLogo,
+    company: "Amicare",
+    position: "Software Engineering Intern",
+    duration: "Jan 2026 - Apr 2026",
+    location: "Toronto, ON",
+    achievements: [
+      "Built a full-stack healthcare management platform from scratch with React, Node.js and FastAPI, supporting 60+ franchise clinics.",
+      "Designed and shipped patient intake and scheduling features that halved manual admin work for clinic staff.",
+      "Turned stakeholder feedback from regular syncs into production changes, averaging 5 features shipped per sprint."
+    ]
+  },
+  {
     logo: "https://avatars.githubusercontent.com/u/91031689?s=280&v=4",
     company: "Toronto Intelligent Systems Lab (TISL)",
-    position: "Student Researcher",
-    duration: "Jun 2025 - Present",
+    position: "Student Researcher, Robot Learning",
+    duration: "Jun 2025 - Jan 2026",
     location: "Toronto, ON",
     achievements: [
       "Ran ablation studies isolating base-policy failure modes, which informed the verifier design.",
@@ -29,15 +54,6 @@ export const experiences = [
     ],
     // Scrolls to the section with this id
     sectionLink: { label: "See the paper in Research", to: "research" }
-  },
-  {
-    // TODO: fill in the role, dates and bullets, and add a logo and location
-    company: "Amicare",
-    position: "TODO: role",
-    duration: "TODO: dates",
-    achievements: [
-      "TODO: add bullets"
-    ]
   },
   {
     logo: "https://i.ibb.co/8Ljrw6jf/logo512.png",

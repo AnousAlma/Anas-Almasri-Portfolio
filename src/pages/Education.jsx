@@ -7,25 +7,27 @@ import {
   Text,
   Flex,
   Tag,
-  List,
-  ListItem,
-  ListIcon,
+  SimpleGrid,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { FaCheckCircle } from 'react-icons/fa';
 import { education } from '../data/education';
 
-const EducationCard = ({ school, degree, duration, cgpa, coursework, roles }) => {
-  const cardBg = useColorModeValue('white', 'gray.800');
+const EducationCard = ({ school, degree, duration, cgpa, honours, coursework }) => {
+  const cardBg = useColorModeValue('white', 'gray.750');
   const headingColor = useColorModeValue('gray.900', 'white');
-  const textColor = useColorModeValue('gray.600', 'gray.300');
-  const subtextColor = useColorModeValue('gray.500', 'gray.400');
-  const detailColor = useColorModeValue('gray.700', 'gray.300');
+  const labelColor = useColorModeValue('gray.500', 'gray.300');
+  const statBg = useColorModeValue('brand.50', 'whiteAlpha.100');
+
+  const stats = [
+    { label: 'Graduation', value: duration },
+    cgpa && { label: 'CGPA', value: cgpa },
+    honours && { label: 'Honours', value: honours },
+  ].filter(Boolean);
 
   return (
     <Box
       bg={cardBg}
-      p={6}
+      p={{ base: 6, md: 10 }}
       borderRadius="xl"
       shadow="md"
       _hover={{
@@ -34,69 +36,80 @@ const EducationCard = ({ school, degree, duration, cgpa, coursework, roles }) =>
       }}
       transitionDuration="0.3s"
     >
-      <VStack align="stretch" spacing={4}>
+      <VStack align="stretch" spacing={{ base: 8, md: 10 }}>
         {/* Header */}
-        <Flex
-          direction={{ base: 'column', sm: 'row' }}
-          justify="space-between"
-          align="flex-start"
-          gap={2}
-        >
-          <VStack align="flex-start" spacing={1}>
-            <Heading size="md" color={headingColor} fontWeight="600" lineHeight="1.3">
-              {degree}
-            </Heading>
-            <Text color="brand.500" fontWeight="600" fontSize="lg">
-              {school}
-            </Text>
-          </VStack>
+        <VStack align="flex-start" spacing={2}>
+          <Heading as="h3" fontSize={{ base: 'xl', md: '2xl' }} color={headingColor} fontWeight="600" lineHeight="1.3">
+            {degree}
+          </Heading>
+          <Text color="accent" fontWeight="600" fontSize="xl">
+            {school}
+          </Text>
+        </VStack>
 
-          <VStack align={{ base: 'flex-start', sm: 'flex-end' }} spacing={1} flexShrink={0}>
-            <Text fontSize="sm" color={textColor} fontWeight="500">
-              {duration}
-            </Text>
-            {cgpa && (
-              <Text fontSize="sm" color={subtextColor}>
-                CGPA {cgpa}
+        {/* Key facts: each tile is as wide as its content needs, so none wraps and leaves the others half empty */}
+        <Flex wrap="wrap" gap={4}>
+          {stats.map((stat) => (
+            <Box key={stat.label} flex="1 1 auto" bg={statBg} borderRadius="lg" px={{ base: 4, sm: 5 }} py={4}>
+              <Text
+                fontSize="xs"
+                fontWeight="600"
+                color={labelColor}
+                textTransform="uppercase"
+                letterSpacing="wider"
+                mb={1}
+              >
+                {stat.label}
               </Text>
-            )}
-          </VStack>
+              <Text
+                fontSize={{ base: 'sm', sm: 'md' }}
+                fontWeight="600"
+                color={headingColor}
+                lineHeight="1.4"
+                whiteSpace={{ base: 'normal', sm: 'nowrap' }}
+              >
+                {stat.value}
+              </Text>
+            </Box>
+          ))}
         </Flex>
 
         {/* Coursework */}
         {coursework && (
-          <VStack align="stretch" spacing={2}>
-            <Text fontSize="sm" color={headingColor} fontWeight="600">
+          <VStack align="stretch" spacing={5}>
+            <Text fontSize="lg" color={headingColor} fontWeight="600">
               Relevant Coursework
             </Text>
-            <Flex wrap="wrap" gap={2}>
-              {coursework.map((course) => (
-                <Tag
-                  key={course}
-                  size="sm"
-                  colorScheme="brand"
-                  variant="subtle"
-                  fontSize="xs"
-                >
-                  {course}
-                </Tag>
+            <SimpleGrid columns={{ base: 1, md: 2 }} spacingX={10} spacingY={7}>
+              {coursework.map((group) => (
+                <VStack key={group.area} align="stretch" spacing={3}>
+                  <Text
+                    fontSize="xs"
+                    fontWeight="600"
+                    color={labelColor}
+                    textTransform="uppercase"
+                    letterSpacing="wider"
+                  >
+                    {group.area}
+                  </Text>
+                  <Flex wrap="wrap" gap={2}>
+                    {group.courses.map((course) => (
+                      <Tag
+                        key={course}
+                        size="lg"
+                        colorScheme="brand"
+                        variant="subtle"
+                        fontSize="sm"
+                        fontWeight="500"
+                      >
+                        {course}
+                      </Tag>
+                    ))}
+                  </Flex>
+                </VStack>
               ))}
-            </Flex>
+            </SimpleGrid>
           </VStack>
-        )}
-
-        {/* Roles */}
-        {roles && (
-          <List spacing={3}>
-            {roles.map((role) => (
-              <ListItem key={role.title + role.detail} display="flex" alignItems="flex-start">
-                <ListIcon as={FaCheckCircle} color="brand.500" mt={0.5} flexShrink={0} />
-                <Text color={detailColor} lineHeight="1.6" fontSize="sm">
-                  {role.title}, {role.detail} · {role.duration}
-                </Text>
-              </ListItem>
-            ))}
-          </List>
         )}
       </VStack>
     </Box>
@@ -108,7 +121,6 @@ const Education = () => {
     <Box
       id="education"
       py={{ base: '80px', md: '120px' }}
-      bg={useColorModeValue('white', 'gray.900')}
     >
       <Container maxW="container.xl">
         <VStack spacing={{ base: 12, md: 16 }} align="stretch">
@@ -135,14 +147,14 @@ const Education = () => {
               borderRadius="full"
               mb={6}
             />
-            <Text color={useColorModeValue('gray.600', 'gray.300')} fontSize="lg" lineHeight="1.6">
-              Degree, coursework and teaching
+            <Text color={useColorModeValue('gray.600', 'gray.100')} fontSize="lg" lineHeight="1.6">
+              Degree and coursework
             </Text>
           </Box>
 
           {/* Schools */}
           <Box
-            maxW="800px"
+            maxW="960px"
             mx="auto"
             w="full"
           >
@@ -154,8 +166,8 @@ const Education = () => {
                   degree={entry.degree}
                   duration={entry.duration}
                   cgpa={entry.cgpa}
+                  honours={entry.honours}
                   coursework={entry.coursework}
-                  roles={entry.roles}
                 />
               ))}
             </VStack>

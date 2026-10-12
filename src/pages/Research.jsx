@@ -15,11 +15,11 @@ import { site } from '../data/site';
 import { research } from '../data/research';
 
 const PaperCard = ({ title, venue, year, link, lab, authors, description }) => {
-  const cardBg = useColorModeValue('white', 'gray.800');
+  const cardBg = useColorModeValue('white', 'gray.750');
   const headingColor = useColorModeValue('gray.900', 'white');
-  const textColor = useColorModeValue('gray.600', 'gray.300');
-  const subtextColor = useColorModeValue('gray.500', 'gray.400');
-  const descriptionColor = useColorModeValue('gray.700', 'gray.300');
+  const textColor = useColorModeValue('gray.600', 'gray.100');
+  const subtextColor = useColorModeValue('gray.500', 'gray.300');
+  const descriptionColor = useColorModeValue('gray.700', 'gray.100');
 
   return (
     <Box
@@ -45,7 +45,7 @@ const PaperCard = ({ title, venue, year, link, lab, authors, description }) => {
             <Heading size="md" color={headingColor} fontWeight="600" lineHeight="1.3">
               {title}
             </Heading>
-            <Text color="brand.500" fontWeight="600" fontSize="lg">
+            <Text color="accent" fontWeight="600" fontSize="lg">
               {lab}
             </Text>
           </VStack>
@@ -109,7 +109,6 @@ const Research = () => {
     <Box
       id="research"
       py={{ base: '80px', md: '120px' }}
-      bg={useColorModeValue('white', 'gray.900')}
     >
       <Container maxW="container.xl">
         <VStack spacing={{ base: 12, md: 16 }} align="stretch">
@@ -136,8 +135,8 @@ const Research = () => {
               borderRadius="full"
               mb={6}
             />
-            <Text color={useColorModeValue('gray.600', 'gray.300')} fontSize="lg" lineHeight="1.6">
-              Robot learning research at the Toronto Intelligent Systems Lab
+            <Text color={useColorModeValue('gray.600', 'gray.100')} fontSize="lg" lineHeight="1.6">
+              Robot learning and dynamical systems research at the University of Toronto
             </Text>
           </Box>
 

@@ -26,7 +26,7 @@ const MotionBox = motion(Box);
 const MotionText = motion(Text);
 
 const NavLink = ({ to, children, onClose = () => {} }) => {
-  const linkColor = useColorModeValue('gray.600', 'gray.300');
+  const linkColor = useColorModeValue('gray.600', 'gray.100');
   const linkHoverColor = useColorModeValue('gray.900', 'white');
   
   return (
@@ -81,7 +81,7 @@ export default function Navbar() {
   );
   const borderColor = useColorModeValue('gray.100', 'gray.700');
   const textColor = useColorModeValue('gray.900', 'white');
-  const linkColor = useColorModeValue('gray.600', 'gray.300');
+  const linkColor = useColorModeValue('gray.600', 'gray.100');
   const linkHoverColor = useColorModeValue('gray.900', 'white');
   const buttonHoverBg = useColorModeValue('gray.50', 'gray.700');
   const drawerBg = useColorModeValue('white', 'gray.800');
@@ -232,7 +232,7 @@ export default function Navbar() {
                     fontSize="2xl"
                     fontWeight="500"
                     color={mobileLinkColor}
-                    _hover={{ color: 'brand.500' }}
+                    _hover={{ color: 'accent' }}
                     transition="color 0.3s ease"
                     cursor="pointer"
                   >
