@@ -60,9 +60,9 @@ function Backdrop() {
   const washes = useColorModeValue(
     // Sized relative to the viewport on small screens so they stay blobs rather than filling a phone
     [
-      'radial-gradient(min(36rem, 60vw) circle at 10% 10%, rgba(99, 102, 241, 0.24), rgba(99, 102, 241, 0.11) 38%, transparent 68%)',
-      'radial-gradient(min(38rem, 64vw) circle at 90% 40%, rgba(56, 189, 248, 0.28), rgba(56, 189, 248, 0.13) 38%, transparent 68%)',
-      'radial-gradient(min(36rem, 60vw) circle at 38% 98%, rgba(168, 85, 247, 0.19), rgba(168, 85, 247, 0.09) 38%, transparent 68%)',
+      'radial-gradient(min(36rem, 60vw) circle at 10% 10%, rgba(99, 102, 241, 0.19), rgba(99, 102, 241, 0.09) 38%, transparent 68%)',
+      'radial-gradient(min(38rem, 64vw) circle at 90% 40%, rgba(56, 189, 248, 0.22), rgba(56, 189, 248, 0.10) 38%, transparent 68%)',
+      'radial-gradient(min(36rem, 60vw) circle at 38% 98%, rgba(168, 85, 247, 0.15), rgba(168, 85, 247, 0.07) 38%, transparent 68%)',
     ],
     [
       'radial-gradient(42rem circle at 8% 4%, rgba(99, 102, 241, 0.22), transparent 62%)',
